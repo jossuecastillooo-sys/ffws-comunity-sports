@@ -222,7 +222,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCK0FF5g3I1mI1Jov3yDrVCLjJxmGlcAq1M",
+  apiKey: "AIzaSyDZACQcqcik8qp8C50OyzlOcxe_1Kd3eTU",
   authDomain: "ffwscomunitysports.firebaseapp.com",
   databaseURL: "https://ffwscomunitysports-default-rtdb.firebaseio.com",
   projectId: "ffwscomunitysports",
@@ -470,7 +470,6 @@ $("resultForm").addEventListener("submit",async e=>{
   const placement = Number($("placement").value);
   const kills = Math.max(0,Number($("kills").value)||0);
 
-  // Clave segura para Firebase Realtime Database.
   const safeTeamId = team.id
     .replaceAll(".","_")
     .replaceAll("#","_")
