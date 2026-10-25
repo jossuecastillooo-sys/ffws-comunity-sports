@@ -1,0 +1,518 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090c0a">
+<title>FFWS COMUNITY SPORTS</title>
+
+<style>
+:root {
+  --bg:#090c0a; --panel:#121914; --line:#29362c;
+  --lime:#c6ff43; --text:#f4f7f1; --muted:#9ba99b;
+}
+* { box-sizing:border-box }
+body {
+  margin:0; background:radial-gradient(ellipse at top right,#25391c,transparent 40%),var(--bg);
+  color:var(--text); font-family:system-ui,Arial,sans-serif;
+}
+.wrap { max-width:1100px; margin:auto; padding:20px }
+header { display:flex; align-items:center; gap:13px; padding:15px 0 22px; border-bottom:1px solid var(--line) }
+.logo { background:var(--lime); color:#10150a; padding:12px 16px; font-weight:1000; font-size:25px; border-radius:10px }
+h1 { font-size:clamp(17px,4vw,25px); margin:0 }
+h2 { font-size:clamp(30px,6vw,48px); line-height:1.05; margin:15px 0 }
+h2 span,.lime { color:var(--lime) }
+p { color:var(--muted); line-height:1.6 }
+.eyebrow { color:var(--lime); letter-spacing:2px; font-size:11px; font-weight:900 }
+.hero { padding:30px 0 20px }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:15px }
+.panel { background:var(--panel); border:1px solid var(--line); border-radius:15px; padding:18px; margin-bottom:15px; min-width:0 }
+.panel h3 { margin-top:0 }
+input,select,button { font:inherit; padding:12px; border-radius:9px; width:100% }
+input,select { background:#090e0a; color:white; border:1px solid #344236; margin:5px 0 12px }
+button { border:0; background:var(--lime); color:#10150a; font-weight:850; cursor:pointer; margin:4px 0 }
+button.secondary { background:#263027; color:white; border:1px solid var(--line) }
+button.danger { background:#452020; color:#ffcaca }
+label { color:var(--muted); font-size:12px }
+.row { display:grid; grid-template-columns:1fr 1fr; gap:10px }
+.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:14px 0 }
+.stat { background:#0b100c; border:1px solid var(--line); border-radius:10px; padding:12px }
+.stat small { display:block; color:var(--muted) }
+.stat strong { font-size:23px }
+.listitem { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 0; border-bottom:1px solid var(--line) }
+.listitem small { display:block; color:var(--muted); margin-top:4px }
+.pill { font-size:10px; color:var(--lime); border:1px solid #455536; border-radius:20px; padding:5px 8px }
+.tablewrap { overflow-x:auto }
+table { border-collapse:collapse; width:100%; white-space:nowrap }
+th,td { padding:12px 8px; text-align:left; border-bottom:1px solid var(--line); font-size:13px }
+th { color:var(--muted); font-size:10px }
+.num { text-align:right }
+.empty { color:var(--muted); padding:20px 0; line-height:1.5 }
+.hidden { display:none!important }
+.notice { padding:12px; background:#26351c; border-radius:9px; margin:10px 0; font-size:13px }
+footer { text-align:center; padding:20px 0; font-size:11px; color:var(--muted); line-height:1.7 }
+@media(max-width:700px) {
+  .grid { grid-template-columns:1fr }
+  .wrap { padding:14px }
+}
+@media(max-width:390px) { .row { grid-template-columns:1fr } }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<header>
+  <div class="logo">F</div>
+  <div>
+    <div class="eyebrow">ESPORTS · BATTLE ROYALE</div>
+    <h1>FFWS COMUNITY SPORTS</h1>
+    <small style="color:var(--muted)">Tu comunidad. Tu competencia.</small>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">COMPITE · SUPERA · CLASIFICA</div>
+  <h2>QUE HABLEN LOS<br><span>RESULTADOS.</span></h2>
+  <p>Una plataforma para organizar torneos, gestionar equipos y publicar clasificaciones en tiempo real.</p>
+  <span class="pill" id="connection">CONECTANDO CON FIREBASE...</span>
+</section>
+
+<div id="notice" class="notice hidden"></div>
+
+<div class="grid">
+  <section class="panel">
+    <h3>Torneos disponibles</h3>
+    <div id="tournaments" class="empty">Cargando torneos...</div>
+  </section>
+
+  <section class="panel">
+    <h3>Clasificación general</h3>
+    <label for="selected">Torneo seleccionado</label>
+    <select id="selected"><option value="">Selecciona un torneo</option></select>
+
+    <div class="stats">
+      <div class="stat"><small>Equipos</small><strong id="teamCount">0</strong></div>
+      <div class="stat"><small>Rondas</small><strong id="roundCount">0</strong></div>
+      <div class="stat"><small>Líder</small><strong id="leader">—</strong></div>
+    </div>
+
+    <div id="standings" class="empty">Selecciona un torneo para ver la tabla.</div>
+  </section>
+</div>
+
+<section class="panel">
+  <h3>Resultados por ronda</h3>
+  <div id="results" class="empty">Todavía no hay resultados publicados.</div>
+  <p class="lime" style="font-size:12px">Sistema de puntos de la comunidad</p>
+  <p style="font-size:12px">1.º: 12 puntos · 2.º: 9 · 3.º: 8 · 4.º: 7 · 5.º: 6 · 6.º: 5 · 7.º: 4 · 8.º: 3 · 9.º: 2 · 10.º: 1. Cada baja suma 1 punto. Este sistema es configurable y no implica que sea el sistema oficial vigente de Garena.</p>
+</section>
+
+<section class="panel">
+  <div class="eyebrow">CONTROL DE ORGANIZACIÓN</div>
+  <h3>Panel de administrador</h3>
+
+  <div id="loginArea">
+    <p>Inicia sesión con el usuario que creaste en Firebase Authentication.</p>
+    <form id="loginForm">
+      <label for="email">Correo del administrador</label>
+      <input id="email" type="email" autocomplete="username" required>
+      <label for="password">Contraseña</label>
+      <input id="password" type="password" autocomplete="current-password" required>
+      <button type="submit">Iniciar sesión</button>
+    </form>
+  </div>
+
+  <div id="adminArea" class="hidden">
+    <div class="notice">Sesión de administrador activa.</div>
+
+    <h3>Crear torneo</h3>
+    <form id="createForm">
+      <label for="tournamentName">Nombre del torneo</label>
+      <input id="tournamentName" required maxlength="70" placeholder="Ej. Jornada 1">
+
+      <div class="row">
+        <div>
+          <label for="game">Juego</label>
+          <select id="game"><option>Free Fire</option><option>Otro Battle Royale</option></select>
+        </div>
+        <div>
+          <label for="status">Estado</label>
+          <select id="status">
+            <option>Próximamente</option>
+            <option>En curso</option>
+            <option>Finalizado</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit">Crear torneo</button>
+    </form>
+
+    <hr style="border-color:var(--line);margin:22px 0">
+
+    <h3>Añadir equipo</h3>
+    <form id="teamForm">
+      <label for="teamName">Nombre del equipo</label>
+      <input id="teamName" required maxlength="50" placeholder="Nombre del equipo">
+      <button type="submit">Registrar equipo</button>
+    </form>
+
+    <hr style="border-color:var(--line);margin:22px 0">
+
+    <h3>Registrar resultado</h3>
+    <form id="resultForm">
+      <div class="row">
+        <div>
+          <label for="round">Número de ronda</label>
+          <input id="round" type="number" min="1" max="99" value="1" required>
+        </div>
+        <div>
+          <label for="resultTeam">Equipo</label>
+          <select id="resultTeam" required></select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="placement">Posición final</label>
+          <select id="placement">
+            <option value="1">1.º lugar</option>
+            <option value="2">2.º lugar</option>
+            <option value="3">3.º lugar</option>
+            <option value="4">4.º lugar</option>
+            <option value="5">5.º lugar</option>
+            <option value="6">6.º lugar</option>
+            <option value="7">7.º lugar</option>
+            <option value="8">8.º lugar</option>
+            <option value="9">9.º lugar</option>
+            <option value="10">10.º lugar</option>
+            <option value="11">11.º lugar</option>
+            <option value="12">12.º lugar</option>
+            <option value="13">13.º lugar</option>
+            <option value="14">14.º lugar</option>
+            <option value="15">15.º lugar</option>
+            <option value="16">16.º lugar</option>
+            <option value="17">17.º lugar</option>
+            <option value="18">18.º lugar</option>
+            <option value="19">19.º lugar</option>
+            <option value="20">20.º lugar</option>
+          </select>
+        </div>
+        <div>
+          <label for="kills">Bajas (kills)</label>
+          <input id="kills" type="number" min="0" max="999" value="0" required>
+        </div>
+      </div>
+      <button type="submit">Guardar resultado</button>
+    </form>
+
+    <hr style="border-color:var(--line);margin:22px 0">
+
+    <h3>Equipos del torneo</h3>
+    <div id="adminTeams" class="empty"></div>
+    <button id="deleteTournament" class="danger">Eliminar torneo seleccionado</button>
+    <button id="logout" class="secondary">Cerrar sesión</button>
+  </div>
+</section>
+
+<footer>
+  <strong>FFWS COMUNITY SPORTS</strong><br>
+  Plataforma comunitaria independiente. No está afiliada, patrocinada ni respaldada por Garena.<br>
+  Las marcas y nombres de juegos pertenecen a sus respectivos titulares.
+</footer>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+import {
+  getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import {
+  getDatabase, ref, onValue, set, push, remove
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCK0FF5g3I1mI1Iov3yDrVCLjJxmGlAq1M",
+  authDomain: "ffwscomunitysports.firebaseapp.com",
+  databaseURL: "https://ffwscomunitysports-default-rtdb.firebaseio.com",
+  projectId: "ffwscomunitysports",
+  storageBucket: "ffwscomunitysports.firebasestorage.app",
+  messagingSenderId: "633206950884",
+  appId: "1:633206950884:web:8a60f46897b48c8c1e15f1",
+  measurementId: "G-071HP07TNP"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+const $ = id => document.getElementById(id);
+const positionPoints = {1:12,2:9,3:8,4:7,5:6,6:5,7:4,8:3,9:2,10:1};
+const safe = value => String(value ?? "").replace(/[&<>"']/g, c => ({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
+
+let data = {};
+let activeId = "";
+let user = null;
+
+function message(text, error=false) {
+  $("notice").textContent = text;
+  $("notice").classList.remove("hidden");
+  $("notice").style.background = error ? "#482020" : "#26351c";
+}
+
+function entries(value) {
+  return value && typeof value === "object" ? Object.entries(value) : [];
+}
+
+function teams(t) {
+  return entries(t?.teams).map(([id,team]) => ({...team,id}));
+}
+
+function results(t) {
+  return entries(t?.results).map(([id,result]) => ({...result,id}));
+}
+
+function tournament() {
+  return data[activeId] || null;
+}
+
+function standings(t) {
+  const totals = {};
+  teams(t).forEach(team => {
+    totals[team.id] = {
+      ...team, points:0, kills:0, placementPoints:0, rounds:0
+    };
+  });
+
+  results(t).forEach(result => {
+    const team = totals[result.teamId];
+    if (!team) return;
+
+    const kills = Math.max(0,Number(result.kills)||0);
+    const pp = positionPoints[Number(result.placement)] || 0;
+
+    team.kills += kills;
+    team.placementPoints += pp;
+    team.points += pp + kills;
+    team.rounds++;
+  });
+
+  return Object.values(totals).sort((a,b) =>
+    b.points-a.points ||
+    b.placementPoints-a.placementPoints ||
+    b.kills-a.kills
+  );
+}
+
+function render() {
+  const all = entries(data).sort((a,b)=>(b[1].createdAt||0)-(a[1].createdAt||0));
+
+  if (!data[activeId]) activeId = all[0]?.[0] || "";
+
+  $("tournaments").innerHTML = all.length ? all.map(([id,t]) => `
+    <div class="listitem">
+      <div>
+        <strong>${safe(t.name)}</strong>
+        <small>${safe(t.game)} · ${teams(t).length} equipos</small>
+        <small>${safe(t.status)}</small>
+      </div>
+      <button class="secondary" data-open="${safe(id)}" style="width:auto">Ver</button>
+    </div>`).join("") : '<div class="empty">Todavía no hay torneos publicados.</div>';
+
+  $("selected").innerHTML =
+    '<option value="">Selecciona un torneo</option>' +
+    all.map(([id,t]) => `<option value="${safe(id)}">${safe(t.name)}</option>`).join("");
+  $("selected").value = activeId;
+
+  document.querySelectorAll("[data-open]").forEach(button => {
+    button.onclick = () => {
+      activeId = button.dataset.open;
+      render();
+    };
+  });
+
+  const t = tournament();
+  const ranking = t ? standings(t) : [];
+  const teamList = t ? teams(t) : [];
+  const resultList = t ? results(t) : [];
+
+  $("teamCount").textContent = teamList.length;
+  $("roundCount").textContent = new Set(resultList.map(r=>Number(r.round))).size;
+  $("leader").textContent = ranking[0] ? ranking[0].name.slice(0,9) : "—";
+
+  $("standings").innerHTML = ranking.length ? `
+    <div class="tablewrap"><table>
+      <thead><tr><th>#</th><th>Equipo</th><th class="num">Bajas</th><th class="num">Pts. posición</th><th class="num">Total</th></tr></thead>
+      <tbody>${ranking.map((team,i)=>`
+        <tr>
+          <td class="lime">${i+1}</td>
+          <td><strong>${safe(team.name)}</strong><br><small>${team.rounds} rondas</small></td>
+          <td class="num">${team.kills}</td>
+          <td class="num">${team.placementPoints}</td>
+          <td class="num"><strong>${team.points}</strong></td>
+        </tr>`).join("")}
+      </tbody>
+    </table></div>` : "Añade equipos y registra resultados para generar la clasificación.";
+
+  $("results").innerHTML = resultList.length ? resultList
+    .sort((a,b)=>Number(b.round)-Number(a.round))
+    .map(r=>`
+      <div class="listitem">
+        <div><strong>Ronda ${Number(r.round)} · ${safe(r.teamName)}</strong>
+        <small>Posición ${Number(r.placement)} · Bajas ${Number(r.kills)}</small></div>
+        <strong class="lime">${(positionPoints[Number(r.placement)]||0)+(Number(r.kills)||0)} pts</strong>
+      </div>`).join("") : "Todavía no hay resultados publicados.";
+
+  $("resultTeam").innerHTML = teamList.length
+    ? teamList.map(team=>`<option value="${safe(team.id)}">${safe(team.name)}</option>`).join("")
+    : '<option value="">Primero añade un equipo</option>';
+
+  $("adminTeams").innerHTML = teamList.length ? teamList.map(team=>`
+    <div class="listitem">
+      <div><strong>${safe(team.name)}</strong>
+      <small>${ranking.find(r=>r.id===team.id)?.points||0} puntos</small></div>
+      <button class="danger" data-remove="${safe(team.id)}" style="width:auto">Quitar</button>
+    </div>`).join("") : "No hay equipos registrados.";
+
+  document.querySelectorAll("[data-remove]").forEach(button=>{
+    button.onclick = async ()=>{
+      if (!activeId || !user) return;
+      if (!confirm("¿Eliminar este equipo y sus resultados?")) return;
+      try {
+        const id = button.dataset.remove;
+        await remove(ref(db,`tournaments/${activeId}/teams/${id}`));
+        for (const [key,r] of entries(tournament()?.results)) {
+          if (r.teamId === id) await remove(ref(db,`tournaments/${activeId}/results/${key}`));
+        }
+        message("Equipo eliminado.");
+      } catch(e) { message(errorText(e),true); }
+    };
+  });
+
+  $("loginArea").classList.toggle("hidden",!!user);
+  $("adminArea").classList.toggle("hidden",!user);
+}
+
+function errorText(error) {
+  if (error.code?.includes("invalid-credential")) return "Correo o contraseña incorrectos.";
+  if (error.code?.includes("permission-denied")) return "Firebase rechazó el cambio. Comprueba las reglas y el UID de administrador.";
+  if (error.code?.includes("network")) return "Problema de conexión. Revisa internet.";
+  return "Error: "+(error.code || error.message || "desconocido");
+}
+
+$("selected").addEventListener("change",e=>{
+  activeId = e.target.value;
+  render();
+});
+
+$("loginForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  try {
+    await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value);
+    $("password").value = "";
+    message("Sesión iniciada.");
+  } catch(error) { message(errorText(error),true); }
+});
+
+$("logout").addEventListener("click",()=>signOut(auth));
+
+$("createForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  if (!user) return;
+  try {
+    const newRef = push(ref(db,"tournaments"));
+    await set(newRef,{
+      name:$("tournamentName").value.trim(),
+      game:$("game").value,
+      status:$("status").value,
+      createdAt:Date.now(),
+      createdBy:user.uid,
+      teams:{},
+      results:{}
+    });
+    activeId = newRef.key;
+    $("tournamentName").value = "";
+    message("Torneo creado correctamente.");
+    render();
+  } catch(error) { message(errorText(error),true); }
+});
+
+$("teamForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  if (!user || !activeId) {
+    message("Inicia sesión y selecciona un torneo.",true);
+    return;
+  }
+  const name = $("teamName").value.trim();
+  if (!name) return;
+  if (teams(tournament()).some(t=>t.name.toLowerCase()===name.toLowerCase())) {
+    message("Ya existe un equipo con ese nombre.",true);
+    return;
+  }
+  try {
+    const teamRef = push(ref(db,`tournaments/${activeId}/teams`));
+    await set(teamRef,{id:teamRef.key,name,createdAt:Date.now()});
+    $("teamName").value = "";
+    message("Equipo registrado.");
+    render();
+  } catch(error) { message(errorText(error),true); }
+});
+
+$("resultForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  if (!user || !activeId) {
+    message("Inicia sesión y selecciona un torneo.",true);
+    return;
+  }
+  const team = teams(tournament()).find(t=>t.id===$("resultTeam").value);
+  if (!team) { message("Registra un equipo primero.",true); return; }
+
+  const round = Math.max(1,Number($("round").value)||1);
+  const placement = Number($("placement").value);
+  const kills = Math.max(0,Number($("kills").value)||0);
+  const key = "r"+round+"_"+team.id.replace(/[.#$\\[\\]/]/g,"_");
+
+  try {
+    await set(ref(db,`tournaments/${activeId}/results/${key}`),{
+      teamId:team.id,
+      teamName:team.name,
+      round,placement,kills,
+      updatedAt:Date.now(),
+      updatedBy:user.uid
+    });
+    message("Resultado guardado. Si el equipo ya tenía resultado en esa ronda, se actualizó.");
+    render();
+  } catch(error) { message(errorText(error),true); }
+});
+
+$("deleteTournament").addEventListener("click",async()=>{
+  if (!user || !activeId) return;
+  if (!confirm("¿Eliminar este torneo, sus equipos y todos sus resultados? No se puede deshacer.")) return;
+  try {
+    await remove(ref(db,"tournaments/"+activeId));
+    activeId = "";
+    message("Torneo eliminado.");
+    render();
+  } catch(error) { message(errorText(error),true); }
+});
+
+onAuthStateChanged(auth,loggedIn=>{
+  user = loggedIn;
+  render();
+});
+
+onValue(ref(db,"tournaments"),snapshot=>{
+  data = snapshot.val() || {};
+  $("connection").textContent = "BASE DE DATOS CONECTADA";
+  $("connection").style.color = "var(--lime)";
+  render();
+},error=>{
+  $("connection").textContent = "ERROR DE CONEXIÓN";
+  message("No se pudo leer la base de datos. Revisa la URL y las reglas de Firebase.",true);
+});
+</script>
+</body>
+</html>
