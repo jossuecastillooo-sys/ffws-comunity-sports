@@ -3,584 +3,353 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#080b14">
-<meta name="description" content="FFWS Community Sports: torneos, equipos, jugadores y competición esports.">
 <title>FFWS Community Sports</title>
-
+<meta name="description" content="Plataforma competitiva de FFWS Community Sports">
 <style>
-:root {
-  --bg:#080b14;
-  --panel:#101725;
-  --panel2:#151f30;
-  --blue:#1687ff;
-  --cyan:#48d8ff;
-  --text:#f4f7ff;
-  --muted:#9aa9bf;
-  --border:#25334a;
-  --green:#36d399;
-  --red:#ff5d72;
-  --yellow:#ffca65;
-  --radius:16px;
+:root{
+--bg:#080b14;--panel:#111a2a;--panel2:#17253b;
+--line:#293a53;--text:#f4f7ff;--muted:#9aabc2;
+--blue:#2589ff;--cyan:#52ddff;--green:#36d399;
+--red:#ff647c;--yellow:#ffd166
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:Inter,system-ui,-apple-system,Arial,sans-serif;
-}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,Arial,sans-serif}
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
-button:disabled{opacity:.5;cursor:not-allowed}
-a{color:inherit;text-decoration:none}
-img{max-width:100%}
-.hidden{display:none!important}
-.muted{color:var(--muted)}
-.small{font-size:12px}
-.app{min-height:100vh}
-.topbar{
-  position:sticky;top:0;z-index:50;
-  display:flex;align-items:center;justify-content:space-between;
-  gap:12px;padding:13px 18px;
-  background:#080b14ed;backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
-}
-.brand{display:flex;align-items:center;gap:10px;font-weight:900}
-.brand-icon{
-  width:42px;height:42px;border-radius:13px;
-  display:grid;place-items:center;
-  background:linear-gradient(135deg,#0879ff,#25d7ff);
-  color:white;font-size:19px;font-weight:1000;
-  box-shadow:0 0 25px #1687ff40;
-}
-.brand small{display:block;color:var(--muted);font-weight:500;font-size:10px}
-.top-actions{display:flex;gap:8px;align-items:center}
-.layout{display:grid;grid-template-columns:245px minmax(0,1fr)}
-.sidebar{
-  position:sticky;top:69px;height:calc(100vh - 69px);
-  overflow:auto;padding:18px 12px;
-  border-right:1px solid var(--border);
-  background:#0b101c;
-}
-.nav-label{
-  margin:18px 10px 8px;font-size:10px;
-  text-transform:uppercase;letter-spacing:1.6px;color:#72839c;
-}
-.nav-btn{
-  width:100%;display:flex;align-items:center;gap:11px;
-  padding:11px 12px;margin:3px 0;border:1px solid transparent;
-  border-radius:11px;background:transparent;color:#b9c7da;
-  text-align:left;font-size:13px;
-}
-.nav-btn:hover,.nav-btn.active{
-  background:#122641;border-color:#1d4772;color:white;
-}
-.nav-icon{width:22px;text-align:center;font-size:16px}
-.nav-count{margin-left:auto;font-size:11px;color:var(--cyan)}
-main{min-width:0;padding:25px;max-width:1600px;width:100%;margin:auto}
-.page{display:none;animation:fade .2s ease}
+button:disabled{opacity:.6;cursor:wait}
+button:hover{filter:brightness(1.12)}
+.topbar{height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;background:#0b1120;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.brand{display:flex;align-items:center;gap:11px;color:white;text-decoration:none;font-weight:900;font-size:19px}
+.brand-icon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#061321;font-size:25px}
+.brand small{display:block;font-size:9px;letter-spacing:2px;color:var(--muted)}
+.top-actions{display:flex;align-items:center;gap:10px}
+.layout{display:grid;grid-template-columns:235px minmax(0,1fr);min-height:calc(100vh - 68px)}
+.sidebar{background:#0b1120;border-right:1px solid var(--line);padding:16px 12px}
+.nav-label{padding:18px 10px 7px;color:#7185a1;font-size:10px;font-weight:850;letter-spacing:1.7px}
+.nav-btn{width:100%;display:flex;align-items:center;gap:10px;text-align:left;padding:11px 12px;margin:2px 0;border:1px solid transparent;border-radius:10px;background:transparent;color:#b8c6da}
+.nav-btn.active,.nav-btn:hover{background:#162640;color:white;border-color:#263f61}
+.nav-icon{width:22px;text-align:center}
+main{min-width:0;width:100%;max-width:1500px;margin:auto;padding:24px}
+.page{display:none}
 .page.active{display:block}
-@keyframes fade{from{opacity:.45;transform:translateY(4px)}to{opacity:1;transform:none}}
-.page-heading{
-  display:flex;align-items:flex-start;justify-content:space-between;
-  flex-wrap:wrap;gap:14px;margin-bottom:22px;
-}
-.page-heading h1{font-size:clamp(23px,4vw,32px);margin:0 0 7px}
-.page-heading p{margin:0;color:var(--muted);font-size:13px}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:7px;
-  border:1px solid var(--border);border-radius:10px;
-  padding:10px 14px;background:var(--panel2);color:var(--text);
-  font-size:12px;font-weight:750;transition:.15s;
-}
-.btn:hover{border-color:var(--blue);transform:translateY(-1px)}
-.btn.primary{background:linear-gradient(135deg,#0879ff,#1761dc);border-color:#258cff}
-.btn.success{background:#10352d;border-color:#21634f;color:#9ff5d5}
-.btn.danger{background:#351822;border-color:#6b2939;color:#ffabb8}
+.hero{padding:32px;border:1px solid #244b76;border-radius:20px;background:radial-gradient(ellipse at top right,#183e69 0,transparent 56%),linear-gradient(130deg,#111e32,#0e1422);margin-bottom:22px}
+.hero-tag{color:var(--cyan);font-size:11px;font-weight:850;letter-spacing:2px}
+h1,h2,h3,p{margin-top:0}
+h1{font-size:clamp(28px,4vw,43px);line-height:1.12;margin:13px 0}
+.hero p,.muted,.page-heading p{color:var(--muted)}
+.hero p{max-width:690px}
+.hero-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+.btn{border:1px solid var(--line);border-radius:10px;background:#172238;color:var(--text);padding:10px 14px;font-weight:650}
+.btn.primary{background:linear-gradient(120deg,var(--blue),#376bff);border-color:transparent;color:white}
 .btn.ghost{background:transparent}
-.btn.sm{padding:7px 10px;font-size:11px}
-.hero{
-  position:relative;overflow:hidden;padding:clamp(22px,5vw,42px);
-  border:1px solid #214b77;border-radius:22px;
-  background:
-    radial-gradient(ellipse at 85% 15%,#087cff42,transparent 45%),
-    linear-gradient(120deg,#111d31,#0c1220 70%);
-  margin-bottom:22px;
-}
-.hero:after{
-  content:"";position:absolute;width:260px;height:260px;
-  right:-100px;bottom:-150px;border-radius:50%;
-  border:1px solid #299aff55;box-shadow:0 0 0 25px #299aff0c,0 0 0 55px #299aff08;
-}
-.hero-tag{
-  display:inline-flex;padding:6px 10px;border-radius:30px;
-  color:#8cdbff;background:#0d3150;border:1px solid #205b86;
-  font-size:10px;font-weight:850;letter-spacing:1.2px;
-}
-.hero h2{font-size:clamp(27px,5vw,43px);max-width:650px;line-height:1.12;margin:17px 0 12px}
-.hero p{max-width:590px;line-height:1.7;color:#b5c6df;font-size:13px}
-.hero-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
-.stats-grid{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:13px;margin-bottom:22px;
-}
-.stat-card,.card{
-  background:var(--panel);border:1px solid var(--border);
-  border-radius:var(--radius);padding:17px;min-width:0;
-}
-.stat-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.stat-icon{
-  display:grid;place-items:center;width:37px;height:37px;
-  border-radius:11px;background:#123158;color:#68c7ff;font-size:18px;
-}
-.stat-label{font-size:11px;color:var(--muted)}
-.stat-value{font-size:28px;font-weight:900;margin:13px 0 5px}
-.stat-note{font-size:10px;color:var(--muted)}
-.content-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
-.card{margin-bottom:15px}
-.card-head{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:10px;margin-bottom:16px;
-}
-.card-head h3{font-size:15px;margin:0}
-.card-head p{font-size:11px;color:var(--muted);margin:5px 0 0}
-.badge{
-  display:inline-flex;align-items:center;gap:5px;
-  border-radius:30px;padding:5px 9px;
-  background:#202c40;color:#c8d7ea;font-size:10px;font-weight:800;
-}
-.badge.green{background:#10382f;color:#80f0c4}
-.badge.red{background:#401c29;color:#ff9eae}
-.badge.yellow{background:#3d3018;color:#ffda8b}
-.badge.blue{background:#12345a;color:#8acaff}
-.table-wrap{width:100%;overflow:auto}
-table{border-collapse:collapse;width:100%;font-size:12px;min-width:500px}
-th{
-  color:#8294ad;text-align:left;font-size:10px;
-  text-transform:uppercase;letter-spacing:.6px;font-weight:750;
-}
-th,td{padding:12px 10px;border-bottom:1px solid var(--border)}
-tbody tr:hover{background:#ffffff05}
-.empty{
-  padding:28px 12px;text-align:center;color:var(--muted);font-size:12px;
-}
-.empty strong{display:block;color:#e5efff;margin-bottom:7px;font-size:14px}
-.field{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;min-width:0}
-.field label{font-size:11px;color:#bac8dc;font-weight:750}
-.field input,.field select,.field textarea,
-.search-input{
-  width:100%;min-width:0;background:#0a101c;color:var(--text);
-  border:1px solid #2b3b53;border-radius:10px;padding:11px 12px;
-  outline:none;font-size:12px;
-}
-.field input:focus,.field select:focus,.field textarea:focus,
-.search-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px #1687ff20}
-.field textarea{min-height:95px;resize:vertical}
-.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 13px}
-.field.full{grid-column:1/-1}
-.toolbar{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:14px}
-.toolbar .search-input{flex:1;min-width:170px}
-.section-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
-.entity-card{
-  border:1px solid var(--border);background:var(--panel);
-  border-radius:15px;padding:15px;min-width:0;
-}
-.entity-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.avatar{
-  width:52px;height:52px;flex-shrink:0;border-radius:13px;
-  display:grid;place-items:center;overflow:hidden;
-  background:#152943;border:1px solid #2c4b6c;color:#8acaff;font-weight:900;
-}
-.avatar img{width:100%;height:100%;object-fit:cover}
-.entity-name{font-weight:850;font-size:13px;overflow-wrap:anywhere}
-.entity-meta{font-size:11px;color:var(--muted);margin-top:4px}
-.entity-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}
-.upload-box{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  min-height:120px;gap:8px;padding:15px;text-align:center;
-  border:1px dashed #3a638b;border-radius:13px;background:#0c1727;
-}
-.upload-box input{max-width:100%;font-size:11px}
-.preview-image{
-  width:90px;height:90px;object-fit:cover;border-radius:13px;
-  border:1px solid var(--border);background:#0a101c;
-}
-.notice{
-  border:1px solid #28517b;background:#10233a;border-radius:12px;
-  padding:13px;font-size:12px;line-height:1.6;color:#c7e4ff;margin-bottom:16px;
-}
-.notice.warning{border-color:#65512b;background:#2a2417;color:#ffe1a1}
-hr{border:0;border-top:1px solid var(--border);margin:18px 0}
-dialog{
-  width:min(640px,calc(100% - 24px));max-height:90vh;overflow:auto;
-  background:var(--panel);color:var(--text);border:1px solid #344967;
-  border-radius:18px;padding:22px;
-}
-dialog::backdrop{background:#02040bcc;backdrop-filter:blur(4px)}
-.dialog-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}
-.dialog-head h2{font-size:18px;margin:0}
-.toast-area{position:fixed;right:15px;bottom:15px;z-index:100;display:grid;gap:8px}
-.toast{
-  max-width:min(360px,calc(100vw - 30px));padding:13px 16px;
-  border-radius:12px;background:#17263a;border:1px solid #385477;
-  box-shadow:0 12px 35px #0008;font-size:12px;
-}
-.toast.error{border-color:#9a3a50}
+.btn.danger{background:#29151e;color:#ff9aaa;border-color:#63303e}
+.btn.sm{padding:7px 10px;font-size:12px}
+.badge{display:inline-block;border-radius:99px;padding:4px 9px;background:#1b3658;color:#9dd3ff;font-size:11px;font-weight:750}
+.badge.green{background:#15382f;color:#8ff0c9}
+.badge.yellow{background:#3c321b;color:#ffdc86}
+.stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}
+.stat-card,.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px;min-width:0}
+.stat-label{color:var(--muted);font-size:13px}
+.stat-value{font-size:29px;font-weight:850;margin-top:4px}
+.content-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:18px}
+.cards-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.record-card{padding:12px;overflow:hidden}
+.record-card img,.media-placeholder{display:block;width:100%;height:165px;object-fit:cover;border-radius:10px;background:#18253b}
+.media-placeholder{display:grid;place-items:center;color:#5c789c;font-size:28px;font-weight:900}
+.record-content{padding:12px 3px 3px}
+.record-content h3{margin:10px 0 6px;overflow-wrap:anywhere}
+.record-content p{font-size:13px;color:#bdc9da;overflow-wrap:anywhere}
+.page-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+.page-heading h2{font-size:27px;margin-bottom:3px}
+.page-heading p{margin-bottom:0}
+.toolbar{display:flex;gap:10px;margin-bottom:18px}
+.toolbar input{flex:1}
+input,select,textarea{width:100%;background:#0a1220;color:var(--text);border:1px solid #30415b;border-radius:10px;padding:11px 12px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--blue)}
+label{display:block;margin:13px 0;color:#dce6f5;font-size:13px;font-weight:650}
+label input,label select,label textarea{margin-top:6px}
+.form-card{max-width:720px}
+.empty,.notice{padding:22px;border:1px dashed #334761;border-radius:12px;color:var(--muted);text-align:center}
+.notice{background:#111d30;text-align:left;margin-bottom:16px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:520px}
+th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line)}
+th{font-size:12px;color:var(--muted)}
+dialog{width:min(620px,calc(100% - 24px));max-height:88vh;overflow:auto;background:var(--panel);color:var(--text);border:1px solid #3a4e6d;border-radius:18px;padding:22px}
+dialog::backdrop{background:#02050bd9;backdrop-filter:blur(4px)}
+.dialog-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.dialog-head h3{margin:0}
+.toast-area{position:fixed;right:16px;bottom:18px;z-index:30;display:grid;gap:8px;max-width:min(380px,calc(100% - 32px))}
+.toast{background:#1b2b43;border:1px solid #3d5879;border-radius:12px;padding:13px 16px;box-shadow:0 8px 30px #0008;overflow-wrap:anywhere}
+.small{font-size:12px}
+hr{border:0;border-top:1px solid var(--line);margin:20px 0}
+[hidden]{display:none!important}
 .mobile-nav{display:none}
-.footer{padding:25px 0 8px;text-align:center;font-size:10px;color:#61728a}
 @media(max-width:1050px){
-  .layout{grid-template-columns:205px minmax(0,1fr)}
-  main{padding:20px}
-  .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .section-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cards-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:700px){
-  .topbar{padding:10px 12px}
-  .layout{display:block}
-  .sidebar{display:none}
-  main{padding:15px 12px 90px}
-  .content-grid,.form-grid{grid-template-columns:1fr}
-  .field.full{grid-column:auto}
-  .section-grid{grid-template-columns:1fr}
-  .stats-grid{gap:9px}
-  .stat-card{padding:13px}
-  .stat-value{font-size:24px}
-  .hero{border-radius:16px}
-  .top-actions .desktop-only{display:none}
-  .mobile-nav{
-    display:flex;position:fixed;bottom:0;left:0;right:0;z-index:60;
-    background:#0b101cf5;border-top:1px solid var(--border);
-    padding:7px 4px calc(7px + env(safe-area-inset-bottom));
-    justify-content:space-around;gap:2px;backdrop-filter:blur(15px);
-  }
-  .mobile-nav button{
-    flex:1;border:0;background:transparent;color:#8fa2bc;
-    font-size:9px;padding:7px 2px;display:grid;gap:5px;justify-items:center;
-  }
-  .mobile-nav button span:first-child{font-size:18px}
-  .mobile-nav button.active{color:#65bdff}
-  .page-heading h1{font-size:25px}
+.topbar{height:62px;padding:0 12px}
+.layout{display:block}
+.sidebar{display:none}
+main{padding:15px 12px 95px}
+.hero{padding:23px 18px}
+.content-grid,.cards-grid{grid-template-columns:1fr}
+.page-heading{align-items:flex-start;flex-direction:column}
+.page-heading>.btn{width:100%}
+.toolbar{flex-direction:column}
+.mobile-nav{display:flex;position:fixed;z-index:15;bottom:0;left:0;right:0;justify-content:space-around;background:#0c1423;border-top:1px solid var(--line);padding:7px 4px calc(7px + env(safe-area-inset-bottom))}
+.mobile-nav button{display:flex;flex-direction:column;align-items:center;gap:2px;border:0;background:transparent;color:#9babc2;font-size:10px;padding:5px}
+.mobile-nav button span:first-child{font-size:19px}
+.mobile-nav button.active{color:var(--cyan)}
+.top-actions .desktop-only{display:none}
 }
 </style>
 </head>
-
 <body>
-<div class="app">
 <header class="topbar">
-  <a href="#" class="brand" onclick="showPage('dashboard');return false">
+  <a class="brand" href="#" onclick="showPage('dashboard');return false">
     <span class="brand-icon">F</span>
-    <span>FFWS <small>COMMUNITY SPORTS</small></span>
+    <span>FFWS<small>COMMUNITY SPORTS</small></span>
   </a>
   <div class="top-actions">
-    <span id="connectionStatus" class="badge yellow">● Conectando...</span>
-    <button class="btn ghost sm desktop-only" onclick="showPage('help')">Ayuda</button>
+    <span id="connectionStatus" class="badge yellow">Conectando...</span>
+    <button class="btn sm ghost desktop-only" onclick="showPage('help')">Ayuda</button>
     <button class="btn primary sm" id="loginButton" onclick="openLogin()">Iniciar sesión</button>
   </div>
 </header>
 
 <div class="layout">
 <aside class="sidebar">
-  <div class="nav-label">Principal</div>
+  <div class="nav-label">PRINCIPAL</div>
   <button class="nav-btn active" data-page="dashboard" onclick="showPage('dashboard')"><span class="nav-icon">⌂</span>Inicio</button>
   <button class="nav-btn" data-page="tournaments" onclick="showPage('tournaments')"><span class="nav-icon">🏆</span>Torneos</button>
   <button class="nav-btn" data-page="teams" onclick="showPage('teams')"><span class="nav-icon">♟</span>Equipos</button>
   <button class="nav-btn" data-page="players" onclick="showPage('players')"><span class="nav-icon">👤</span>Jugadores</button>
   <button class="nav-btn" data-page="rankings" onclick="showPage('rankings')"><span class="nav-icon">▤</span>Clasificación</button>
   <button class="nav-btn" data-page="matches" onclick="showPage('matches')"><span class="nav-icon">⚔</span>Partidas y resultados</button>
-
-  <div class="nav-label">Comunidad</div>
+  <div class="nav-label">COMUNIDAD</div>
   <button class="nav-btn" data-page="news" onclick="showPage('news')"><span class="nav-icon">▣</span>Noticias</button>
   <button class="nav-btn" data-page="calendar" onclick="showPage('calendar')"><span class="nav-icon">▦</span>Calendario</button>
-  <button class="nav-btn" data-page="media" onclick="showPage('media')"><span class="nav-icon">▧</span>Biblioteca multimedia</button>
+  <button class="nav-btn" data-page="media" onclick="showPage('media')"><span class="nav-icon">▧</span>Multimedia</button>
   <button class="nav-btn" data-page="support" onclick="showPage('support')"><span class="nav-icon">✉</span>Soporte</button>
-
-  <div class="nav-label">Administración</div>
+  <div class="nav-label">ADMINISTRACIÓN</div>
   <button class="nav-btn" data-page="admin" onclick="showPage('admin')"><span class="nav-icon">⚙</span>Centro de control</button>
-  <button class="nav-btn" data-page="registrations" onclick="showPage('registrations')"><span class="nav-icon">☷</span>Inscripciones <span class="nav-count" id="pendingCount">0</span></button>
-  <button class="nav-btn" data-page="users" onclick="showPage('users')"><span class="nav-icon">♙</span>Usuarios y permisos</button>
-  <button class="nav-btn" data-page="reports" onclick="showPage('reports')"><span class="nav-icon">▥</span>Informes y exportación</button>
+  <button class="nav-btn" data-page="registrations" onclick="showPage('registrations')"><span class="nav-icon">☷</span>Inscripciones</button>
+  <button class="nav-btn" data-page="users" onclick="showPage('users')"><span class="nav-icon">♙</span>Cuenta y permisos</button>
+  <button class="nav-btn" data-page="reports" onclick="showPage('reports')"><span class="nav-icon">▥</span>Informes</button>
   <button class="nav-btn" data-page="settings" onclick="showPage('settings')"><span class="nav-icon">⚑</span>Configuración</button>
   <button class="nav-btn" data-page="help" onclick="showPage('help')"><span class="nav-icon">?</span>Ayuda y diagnóstico</button>
-
   <hr>
-  <div class="small muted" style="padding:0 10px;line-height:1.7">
-    FFWS Community Sports<br>
-    <span id="sidebarUser">Modo visitante</span>
-  </div>
+  <p class="small muted">FFWS Community Sports<br><span id="sidebarUser">Modo visitante</span></p>
 </aside>
 
 <main>
 <section class="page active" id="page-dashboard">
   <div class="hero">
-    <span class="hero-tag">ESPORTS • COMPETICIÓN • COMUNIDAD</span>
-    <h2>La competición comienza aquí.</h2>
-    <p>Gestiona torneos, organiza equipos, registra resultados y construye la comunidad competitiva de FFWS desde un solo lugar.</p>
+    <span class="hero-tag">ESPORTS · COMPETICIÓN · COMUNIDAD</span>
+    <h1>La competición comienza aquí.</h1>
+    <p>Administra torneos, equipos, jugadores, resultados y noticias desde una sola plataforma competitiva.</p>
     <div class="hero-actions">
       <button class="btn primary" onclick="showPage('tournaments')">🏆 Explorar torneos</button>
-      <button class="btn" onclick="showPage('teams')">♟ Ver equipos</button>
-      <button class="btn" onclick="showPage('registrations')">＋ Registrar equipo</button>
+      <button class="btn" onclick="showPage('teams')">Ver equipos</button>
+      <button class="btn" onclick="showPage('registrations')">Registrar equipo</button>
     </div>
   </div>
-
   <div class="stats-grid">
-    <div class="stat-card"><div class="stat-top"><span class="stat-label">Torneos</span><span class="stat-icon">🏆</span></div><div class="stat-value" id="statTournaments">0</div><div class="stat-note">Competiciones registradas</div></div>
-    <div class="stat-card"><div class="stat-top"><span class="stat-label">Equipos</span><span class="stat-icon">♟</span></div><div class="stat-value" id="statTeams">0</div><div class="stat-note">Equipos registrados</div></div>
-    <div class="stat-card"><div class="stat-top"><span class="stat-label">Jugadores</span><span class="stat-icon">👤</span></div><div class="stat-value" id="statPlayers">0</div><div class="stat-note">Perfiles registrados</div></div>
-    <div class="stat-card"><div class="stat-top"><span class="stat-label">Solicitudes</span><span class="stat-icon">☷</span></div><div class="stat-value" id="statPending">0</div><div class="stat-note">Pendientes de revisión</div></div>
+    <div class="stat-card"><div class="stat-label">Torneos</div><div id="statTournaments" class="stat-value">0</div></div>
+    <div class="stat-card"><div class="stat-label">Equipos</div><div id="statTeams" class="stat-value">0</div></div>
+    <div class="stat-card"><div class="stat-label">Jugadores</div><div id="statPlayers" class="stat-value">0</div></div>
+    <div class="stat-card"><div class="stat-label">Inscripciones pendientes</div><div id="statPending" class="stat-value">0</div></div>
   </div>
-
   <div class="content-grid">
-    <div class="card">
-      <div class="card-head"><div><h3>Próximos torneos</h3><p>Competiciones programadas</p></div><button class="btn sm" onclick="showPage('tournaments')">Ver todos</button></div>
-      <div id="dashboardTournaments" class="empty"><strong>Preparando competiciones</strong>Los torneos aparecerán aquí cuando se registren.</div>
-    </div>
-    <div class="card">
-      <div class="card-head"><div><h3>Actividad reciente</h3><p>Últimos movimientos disponibles</p></div><span class="badge blue">Actividad</span></div>
-      <div id="activityFeed" class="empty"><strong>Sin actividad registrada</strong>Los cambios aparecerán aquí cuando estén conectados.</div>
-    </div>
+    <div class="card"><h3>Próximos torneos</h3><div id="dashboardTournaments" class="empty">Cargando torneos...</div></div>
+    <div class="card"><h3>Últimas noticias</h3><div id="dashboardNews" class="empty">Cargando noticias...</div></div>
   </div>
-
-  <div class="card">
-    <div class="card-head"><div><h3>Últimas noticias</h3><p>Novedades de la comunidad</p></div><button class="btn sm" onclick="showPage('news')">Ver noticias</button></div>
-    <div id="dashboardNews" class="empty"><strong>Noticias de FFWS</strong>Las publicaciones aparecerán aquí.</div>
-  </div>
+  <div class="card"><h3>Actividad reciente</h3><div id="activityFeed" class="muted">Cargando actividad...</div></div>
 </section>
 <section class="page" id="page-tournaments">
-  <div class="page-heading">
-    <div><h2>Torneos</h2><p>Organiza competiciones y administra sus inscripciones.</p></div>
-    <button class="btn primary admin-only" onclick="openEditor('tournament')">＋ Crear torneo</button>
-  </div>
-  <div class="toolbar">
-    <input id="tournamentSearch" placeholder="Buscar torneo..." oninput="renderAll()">
-    <select id="tournamentFilter" onchange="renderAll()">
-      <option value="">Todos los estados</option>
-      <option>Próximo</option><option>En curso</option><option>Finalizado</option>
-    </select>
-  </div>
-  <div id="tournamentList" class="cards-grid"></div>
+  <div class="page-heading"><div><h2>Torneos</h2><p>Consulta las competiciones disponibles.</p></div><button class="btn primary admin-action" onclick="openEditor('tournaments')">+ Crear torneo</button></div>
+  <div class="toolbar"><input id="searchTournaments" placeholder="Buscar torneo..." oninput="renderRecords('tournaments')"><select id="filterTournaments" onchange="renderRecords('tournaments')"><option value="">Todos los estados</option><option>Abierto</option><option>En curso</option><option>Finalizado</option></select></div>
+  <div id="listTournaments" class="cards-grid"><div class="empty">Cargando torneos...</div></div>
 </section>
 
 <section class="page" id="page-teams">
-  <div class="page-heading">
-    <div><h2>Equipos</h2><p>Logos, capitanes, juego y datos competitivos.</p></div>
-    <button class="btn primary admin-only" onclick="openEditor('team')">＋ Añadir equipo</button>
-  </div>
-  <div class="toolbar"><input id="teamSearch" placeholder="Buscar equipo..." oninput="renderAll()"></div>
-  <div id="teamList" class="cards-grid"></div>
+  <div class="page-heading"><div><h2>Equipos</h2><p>Equipos registrados en la comunidad.</p></div><button class="btn primary" onclick="openEditor('registrations')">+ Registrar equipo</button></div>
+  <div class="toolbar"><input id="searchTeams" placeholder="Buscar equipo o capitán..." oninput="renderRecords('teams')"></div>
+  <div id="listTeams" class="cards-grid"><div class="empty">Cargando equipos...</div></div>
 </section>
 
 <section class="page" id="page-players">
-  <div class="page-heading">
-    <div><h2>Jugadores</h2><p>Perfiles, fotografías, equipos y nombres dentro del juego.</p></div>
-    <button class="btn primary admin-only" onclick="openEditor('player')">＋ Añadir jugador</button>
-  </div>
-  <div class="toolbar"><input id="playerSearch" placeholder="Buscar jugador..." oninput="renderAll()"></div>
-  <div id="playerList" class="cards-grid"></div>
+  <div class="page-heading"><div><h2>Jugadores</h2><p>Directorio de participantes.</p></div><button class="btn primary admin-action" onclick="openEditor('players')">+ Añadir jugador</button></div>
+  <div class="toolbar"><input id="searchPlayers" placeholder="Buscar jugador..." oninput="renderRecords('players')"></div>
+  <div id="listPlayers" class="cards-grid"><div class="empty">Cargando jugadores...</div></div>
 </section>
 
 <section class="page" id="page-rankings">
-  <div class="page-heading"><div><h2>Clasificación</h2><p>Tabla competitiva calculada con los puntos registrados.</p></div></div>
-  <div class="card table-wrap">
-    <table><thead><tr><th>#</th><th>Equipo</th><th>Victorias</th><th>Derrotas</th><th>Puntos</th></tr></thead>
-    <tbody id="rankingList"></tbody></table>
-  </div>
+  <div class="page-heading"><div><h2>Clasificación</h2><p>Consulta los puntos y posiciones de los equipos.</p></div><button class="btn admin-action" onclick="openEditor('rankings')">+ Añadir posición</button></div>
+  <div class="card table-wrap"><table><thead><tr><th>Pos.</th><th>Equipo</th><th>Torneo</th><th>Puntos</th><th>Victorias</th></tr></thead><tbody id="rankingRows"><tr><td colspan="5">Cargando clasificación...</td></tr></tbody></table></div>
 </section>
 
 <section class="page" id="page-matches">
-  <div class="page-heading">
-    <div><h2>Partidas y resultados</h2><p>Registra enfrentamientos y resultados oficiales.</p></div>
-    <button class="btn primary admin-only" onclick="openEditor('match')">＋ Registrar partida</button>
-  </div>
-  <div id="matchList" class="cards-grid"></div>
+  <div class="page-heading"><div><h2>Partidas y resultados</h2><p>Resultados publicados y encuentros programados.</p></div><button class="btn primary admin-action" onclick="openEditor('matches')">+ Añadir partida</button></div>
+  <div class="toolbar"><input id="searchMatches" placeholder="Buscar equipo o torneo..." oninput="renderRecords('matches')"><select id="filterMatches" onchange="renderRecords('matches')"><option value="">Todos</option><option>Programada</option><option>En curso</option><option>Finalizada</option></select></div>
+  <div id="listMatches" class="cards-grid"><div class="empty">Cargando partidas...</div></div>
 </section>
 
-<!-- Siguiente parte: noticias, calendario y multimedia -->
-  
 <section class="page" id="page-news">
-  <div class="page-heading">
-    <div><h2>Noticias</h2><p>Actualizaciones, anuncios y novedades de la comunidad.</p></div>
-    <button class="btn primary admin-only" onclick="openEditor('news')">＋ Publicar noticia</button>
-  </div>
-  <div id="newsList" class="cards-grid"></div>
+  <div class="page-heading"><div><h2>Noticias</h2><p>Novedades y anuncios de la comunidad.</p></div><button class="btn primary admin-action" onclick="openEditor('news')">+ Publicar noticia</button></div>
+  <div class="toolbar"><input id="searchNews" placeholder="Buscar noticia..." oninput="renderRecords('news')"></div>
+  <div id="listNews" class="cards-grid"><div class="empty">Cargando noticias...</div></div>
 </section>
 
 <section class="page" id="page-calendar">
-  <div class="page-heading">
-    <div><h2>Calendario</h2><p>Fechas de torneos, partidas y actividades.</p></div>
-    <button class="btn primary admin-only" onclick="openEditor('event')">＋ Añadir evento</button>
-  </div>
-  <div id="eventList" class="cards-grid"></div>
+  <div class="page-heading"><div><h2>Calendario</h2><p>Fechas importantes y próximos encuentros.</p></div><button class="btn primary admin-action" onclick="openEditor('calendar')">+ Añadir evento</button></div>
+  <div id="listCalendar" class="cards-grid"><div class="empty">Cargando calendario...</div></div>
 </section>
 
 <section class="page" id="page-media">
-  <div class="page-heading">
-    <div><h2>Biblioteca multimedia</h2><p>Logos, fotografías, portadas y material de la comunidad.</p></div>
-    <button class="btn primary admin-only" onclick="openEditor('media')">＋ Subir archivo</button>
-  </div>
-  <div class="notice">Los archivos se seleccionan directamente desde tu teléfono. Para guardarlos en línea, debes configurar Firebase Storage y sus reglas de seguridad.</div>
-  <div id="mediaList" class="cards-grid"></div>
+  <div class="page-heading"><div><h2>Multimedia</h2><p>Galería de imágenes y contenido de la comunidad.</p></div><button class="btn primary admin-action" onclick="openEditor('media')">+ Añadir contenido</button></div>
+  <div id="listMedia" class="cards-grid"><div class="empty">Cargando contenido...</div></div>
 </section>
-
 <section class="page" id="page-support">
-  <div class="page-heading"><div><h2>Soporte</h2><p>Envía una consulta o informa de un problema.</p></div></div>
+  <div class="page-heading"><div><h2>Soporte</h2><p>Envía consultas, reportes o sugerencias.</p></div></div>
   <div class="card form-card">
-    <form onsubmit="submitSupport(event)">
-      <label>Tu nombre<input name="name" required maxlength="80" placeholder="Nombre o nickname"></label>
-      <label>Correo electrónico<input name="email" type="email" maxlength="120" placeholder="correo@ejemplo.com"></label>
-      <label>Tipo de consulta
-        <select name="type"><option>Ayuda general</option><option>Inscripción a torneo</option><option>Problema técnico</option><option>Reporte de usuario</option></select>
-      </label>
-      <label>Mensaje<textarea name="message" required maxlength="1500" rows="5" placeholder="Describe tu consulta..."></textarea></label>
-      <button class="btn primary" type="submit">Enviar consulta</button>
+    <form id="supportForm" onsubmit="submitSupport(event)">
+      <label>Nombre<input name="name" required maxlength="80" placeholder="Tu nombre"></label>
+      <label>Correo electrónico<input name="email" type="email" required maxlength="120" placeholder="correo@ejemplo.com"></label>
+      <label>Tipo de consulta<select name="category"><option>Consulta general</option><option>Problema técnico</option><option>Inscripción</option><option>Reporte de conducta</option><option>Sugerencia</option></select></label>
+      <label>Mensaje<textarea name="message" required minlength="5" maxlength="1500" rows="5" placeholder="Describe tu consulta..."></textarea></label>
+      <button class="btn primary" type="submit">Enviar mensaje</button>
     </form>
-  </div>
-  <div id="supportList" class="cards-grid"></div>
-</section>
-
-<!-- Siguiente parte: administración, inscripciones y usuarios -->
-  
-<section class="page" id="page-admin">
-  <div class="page-heading"><div><h2>Centro de control</h2><p>Resumen administrativo de FFWS Community Sports.</p></div></div>
-  <div id="adminGate" class="notice">Inicia sesión con una cuenta autorizada para acceder a las herramientas administrativas.</div>
-  <div id="adminPanel" hidden>
-    <div class="stats-grid">
-      <div class="stat-card"><div class="stat-label">Torneos</div><div class="stat-value" id="adminTournaments">0</div></div>
-      <div class="stat-card"><div class="stat-label">Equipos</div><div class="stat-value" id="adminTeams">0</div></div>
-      <div class="stat-card"><div class="stat-label">Jugadores</div><div class="stat-value" id="adminPlayers">0</div></div>
-      <div class="stat-card"><div class="stat-label">Consultas</div><div class="stat-value" id="adminSupport">0</div></div>
-    </div>
-    <div class="card">
-      <h3>Acciones rápidas</h3>
-      <div class="hero-actions">
-        <button class="btn" onclick="openEditor('tournament')">Crear torneo</button>
-        <button class="btn" onclick="openEditor('team')">Añadir equipo</button>
-        <button class="btn" onclick="openEditor('player')">Añadir jugador</button>
-        <button class="btn" onclick="openEditor('news')">Publicar noticia</button>
-        <button class="btn" onclick="exportData()">Exportar respaldo JSON</button>
-      </div>
-    </div>
-    <div class="card">
-      <h3>Últimas consultas recibidas</h3>
-      <div id="adminSupportList"></div>
-    </div>
   </div>
 </section>
 
 <section class="page" id="page-registrations">
-  <div class="page-heading">
-    <div><h2>Inscripciones</h2><p>Solicitudes de participación enviadas por equipos.</p></div>
-    <button class="btn primary" onclick="openEditor('registration')">＋ Nueva solicitud</button>
+  <div class="page-heading"><div><h2>Inscripciones</h2><p>Solicita la incorporación de tu equipo a la comunidad.</p></div></div>
+  <div class="notice">Completa los datos del equipo y de su capitán. Enviar la solicitud no garantiza la entrada a un torneo; la administración debe revisarla.</div>
+  <div class="card form-card">
+    <form id="registrationForm" onsubmit="submitRegistration(event)">
+      <label>Nombre del equipo<input name="teamName" required maxlength="70" placeholder="Nombre competitivo"></label>
+      <label>Nombre del capitán<input name="captain" required maxlength="80" placeholder="Nombre del capitán"></label>
+      <label>Correo de contacto<input name="email" type="email" required maxlength="120" placeholder="correo@ejemplo.com"></label>
+      <label>Juego o modalidad<select name="game"><option>Free Fire</option><option>Otra modalidad</option></select></label>
+      <label>Nombre de usuario o ID del capitán<input name="playerId" required maxlength="80" placeholder="ID de jugador"></label>
+      <label>Integrantes del equipo<textarea name="members" rows="3" maxlength="600" placeholder="Nombres o IDs de los integrantes"></textarea></label>
+      <label>Comentario adicional<textarea name="notes" rows="3" maxlength="600" placeholder="Información adicional (opcional)"></textarea></label>
+      <button class="btn primary" type="submit">Enviar inscripción</button>
+    </form>
   </div>
-  <div id="registrationList" class="cards-grid"></div>
+</section>
+
+<section class="page" id="page-admin">
+  <div class="page-heading"><div><h2>Centro de control</h2><p>Herramientas de administración de la plataforma.</p></div><span id="adminBadge" class="badge yellow">Sin verificar</span></div>
+  <div id="adminLocked" class="notice">Inicia sesión con la cuenta administradora autorizada para acceder a estas herramientas.</div>
+  <div id="adminContent" hidden>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-label">Registros</div><div id="adminTotal" class="stat-value">0</div></div>
+      <div class="stat-card"><div class="stat-label">Solicitudes pendientes</div><div id="adminPending" class="stat-value">0</div></div>
+      <div class="stat-card"><div class="stat-label">Mensajes de soporte</div><div id="adminSupport" class="stat-value">0</div></div>
+      <div class="stat-card"><div class="stat-label">Estado de sesión</div><div id="adminSession" class="stat-value" style="font-size:17px">No iniciada</div></div>
+    </div>
+    <div class="content-grid">
+      <div class="card"><h3>Crear contenido</h3><p class="muted">Publica torneos, equipos, jugadores, resultados, noticias y eventos.</p><div class="hero-actions"><button class="btn primary" onclick="openEditor('tournaments')">Crear torneo</button><button class="btn" onclick="openEditor('news')">Publicar noticia</button><button class="btn" onclick="openEditor('matches')">Añadir partida</button></div></div>
+      <div class="card"><h3>Administración</h3><p class="muted">Revisa solicitudes y configura el contenido visible.</p><div class="hero-actions"><button class="btn" onclick="showPage('registrations')">Ver inscripciones</button><button class="btn" onclick="showPage('reports')">Ver informes</button><button class="btn" onclick="showPage('settings')">Configuración</button></div></div>
+    </div>
+    <div class="card"><h3>Solicitudes recientes</h3><div id="adminRecent" class="empty">Cargando solicitudes...</div></div>
+  </div>
 </section>
 
 <section class="page" id="page-users">
-  <div class="page-heading"><div><h2>Usuarios y permisos</h2><p>Sesión actual y estado de acceso.</p></div></div>
+  <div class="page-heading"><div><h2>Cuenta y permisos</h2><p>Estado de tu sesión y acceso administrativo.</p></div></div>
   <div class="card">
-    <div id="userInfo" class="empty">No has iniciado sesión.</div>
-    <div class="hero-actions">
-      <button class="btn primary" onclick="openLogin()">Iniciar sesión o registrarse</button>
-      <button class="btn" onclick="logoutUser()">Cerrar sesión</button>
-    </div>
-    <p class="muted small">Por seguridad, no se permite convertir una cuenta en administradora desde un formulario público. El administrador debe configurarse de forma controlada.</p>
+    <p><strong>Usuario:</strong> <span id="accountEmail">No has iniciado sesión</span></p>
+    <p><strong>UID:</strong> <span id="accountUid" class="small">No disponible</span></p>
+    <p><strong>Permiso administrativo:</strong> <span id="accountRole">No verificado</span></p>
+    <div class="hero-actions"><button class="btn primary" onclick="openLogin()">Iniciar sesión</button><button class="btn danger" onclick="logoutUser()">Cerrar sesión</button></div>
   </div>
+  <div class="notice">La interfaz no concede permisos por sí sola. La base de datos y el almacenamiento de Firebase también deben tener reglas de seguridad correctas.</div>
 </section>
 
 <section class="page" id="page-reports">
-  <div class="page-heading"><div><h2>Informes y exportación</h2><p>Descarga los datos disponibles para conservar una copia.</p></div></div>
-  <div class="card">
-    <h3>Respaldo de datos</h3>
-    <p>Exporta torneos, equipos, jugadores, resultados, noticias y otros registros que estén cargados.</p>
-    <button class="btn primary" onclick="exportData()">Descargar respaldo JSON</button>
+  <div class="page-heading"><div><h2>Informes</h2><p>Resumen de los datos disponibles.</p></div><button class="btn" onclick="exportData()">Exportar datos JSON</button></div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-label">Torneos</div><div id="reportTournaments" class="stat-value">0</div></div>
+    <div class="stat-card"><div class="stat-label">Equipos</div><div id="reportTeams" class="stat-value">0</div></div>
+    <div class="stat-card"><div class="stat-label">Jugadores</div><div id="reportPlayers" class="stat-value">0</div></div>
+    <div class="stat-card"><div class="stat-label">Partidas</div><div id="reportMatches" class="stat-value">0</div></div>
   </div>
+  <div class="card"><h3>Estado de la conexión</h3><p id="reportConnection" class="muted">Comprobando conexión...</p><p class="small muted">Los datos que se exportan dependen de los registros que tu sesión pueda leer.</p></div>
 </section>
 
 <section class="page" id="page-settings">
-  <div class="page-heading"><div><h2>Configuración</h2><p>Preferencias básicas del sitio.</p></div></div>
+  <div class="page-heading"><div><h2>Configuración</h2><p>Opciones de la plataforma.</p></div></div>
   <div class="card">
-    <label>Nombre de la comunidad<input id="settingCommunity" value="FFWS Community Sports" maxlength="100"></label>
-    <label>Juego principal<input id="settingGame" value="Free Fire" maxlength="100"></label>
-    <button class="btn primary" onclick="saveSettings()">Guardar preferencias</button>
-    <p class="muted small">Las preferencias del navegador no sustituyen la configuración compartida de la base de datos.</p>
+    <h3>Conexión con Firebase</h3>
+    <p class="muted">La conexión y los permisos se comprobarán al iniciar la aplicación.</p>
+    <p>Estado: <span id="settingsConnection" class="badge yellow">Pendiente</span></p>
+    <button class="btn primary" onclick="checkConnection()">Comprobar conexión</button>
+    <hr>
+    <h3>Actualizar contenido</h3>
+    <p class="muted">Vuelve a leer los datos disponibles desde la base de datos.</p>
+    <button class="btn" onclick="refreshData()">Actualizar datos</button>
   </div>
 </section>
 
 <section class="page" id="page-help">
-  <div class="page-heading"><div><h2>Ayuda y diagnóstico</h2><p>Estado de la conexión y guía de configuración.</p></div></div>
+  <div class="page-heading"><div><h2>Ayuda y diagnóstico</h2><p>Información para resolver errores de la plataforma.</p></div></div>
   <div class="card">
-    <h3>Estado del sistema</h3>
-    <p id="diagnosticStatus">Comprobando conexión...</p>
-    <p id="diagnosticUser">Sesión: visitante.</p>
-    <p>Para habilitar el guardado en línea, configura Firebase Authentication, Realtime Database y Storage. Las reglas de seguridad son obligatorias; ocultar botones no protege una base de datos.</p>
-    <button class="btn" onclick="checkConnection()">Comprobar conexión</button>
+    <h3>Diagnóstico</h3>
+    <p id="diagnosticStatus">La comprobación se realizará al cargar la aplicación.</p>
+    <button class="btn primary" onclick="runDiagnostics()">Ejecutar diagnóstico</button>
+    <hr>
+    <h3>Si algo no funciona</h3>
+    <p class="muted">Comprueba que el archivo index.html esté completo, que el despliegue de Vercel haya terminado y que la configuración y las reglas de Firebase sean correctas.</p>
+    <p class="muted">No publiques claves privadas ni contraseñas. La configuración web de Firebase no sustituye las reglas de seguridad.</p>
   </div>
 </section>
 
-<!-- Siguiente parte: ventanas de edición e inicio de sesión -->
-  
-<dialog id="editorDialog">
-  <div class="dialog-head">
-    <h3 id="editorTitle">Crear registro</h3>
-    <button class="btn sm" type="button" onclick="closeEditor()">Cerrar</button>
-  </div>
-  <form id="editorForm" onsubmit="saveEditor(event)">
-    <input type="hidden" name="kind" id="editorKind">
-    <label id="fieldTitleLabel">Nombre
-      <input name="title" id="fieldTitle" required maxlength="140" placeholder="Escribe un nombre">
-    </label>
-    <label id="fieldSubtitleLabel">Descripción breve
-      <input name="subtitle" id="fieldSubtitle" maxlength="180" placeholder="Información adicional">
-    </label>
-    <label id="fieldDescriptionLabel">Descripción
-      <textarea name="description" id="fieldDescription" rows="4" maxlength="2500" placeholder="Detalles del registro"></textarea>
-    </label>
-    <label id="fieldDateLabel">Fecha
-      <input name="date" id="fieldDate" type="date">
-    </label>
-    <label id="fieldStatusLabel">Estado
-      <select name="status" id="fieldStatus">
-        <option>Próximo</option><option>En curso</option><option>Finalizado</option>
-        <option>Pendiente</option><option>Aprobado</option><option>Rechazado</option>
-      </select>
-    </label>
-    <label id="fieldTeamLabel">Equipo relacionado
-      <select name="teamId" id="fieldTeam"><option value="">Sin equipo asignado</option></select>
-    </label>
-    <label id="fieldOpponentLabel">Equipo rival
-      <input name="opponent" id="fieldOpponent" maxlength="140" placeholder="Nombre del rival">
-    </label>
-    <label id="fieldScoreLabel">Resultado o puntos
-      <input name="score" id="fieldScore" maxlength="60" placeholder="Ej. 2-1 o 25 puntos">
-    </label>
-    <label id="fieldImageLabel">Imagen, logo o fotografía
-      <input name="image" id="fieldImage" type="file" accept="image/*" capture="environment">
-    </label>
-    <div id="imagePreview" class="small muted">Selecciona una imagen para ver su nombre.</div>
-    <label id="fieldExtraLabel">Dato adicional
-      <input name="extra" id="fieldExtra" maxlength="180" placeholder="Ej. capitán, juego o categoría">
-    </label>
-    <button class="btn primary" type="submit" id="saveEditorButton">Guardar registro</button>
-    <p class="muted small">Imágenes recomendadas: JPG, PNG o WebP. El límite de carga configurado en esta aplicación es de 5 MB por imagen.</p>
-  </form>
-</dialog>
+</main>
+</div>
+
+<nav class="mobile-nav">
+  <button class="active" data-page="dashboard" onclick="showPage('dashboard')"><span>⌂</span><span>Inicio</span></button>
+  <button data-page="tournaments" onclick="showPage('tournaments')"><span>🏆</span><span>Torneos</span></button>
+  <button data-page="teams" onclick="showPage('teams')"><span>♟</span><span>Equipos</span></button>
+  <button data-page="matches" onclick="showPage('matches')"><span>⚔</span><span>Partidas</span></button>
+  <button data-page="admin" onclick="showPage('admin')"><span>⚙</span><span>Admin</span></button>
+</nav>
+
+<div id="toastArea" class="toast-area" aria-live="polite"></div>
 
 <dialog id="loginDialog">
-  <div class="dialog-head">
-    <h3>Acceso a FFWS</h3>
-    <button class="btn sm" type="button" onclick="document.getElementById('loginDialog').close()">Cerrar</button>
-  </div>
+  <div class="dialog-head"><h3>Iniciar sesión</h3><button class="btn sm" onclick="closeDialog('loginDialog')">Cerrar</button></div>
+  <p class="muted">Accede con tu cuenta autorizada.</p>
   <form id="loginForm" onsubmit="loginUser(event)">
-    <label>Correo electrónico<input name="email" type="email" required autocomplete="email"></label>
-    <label>Contraseña<input name="password" type="password" required minlength="6" autocomplete="current-password"></label>
-    <button class="btn primary" type="submit">Iniciar sesión</button>
-    <button class="btn" type="button" onclick="registerUser()">Crear cuenta</button>
-    <p class="muted small">Crear una cuenta no concede permisos administrativos.</p>
+    <label>Correo electrónico<input name="email" type="email" required autocomplete="username" placeholder="correo@ejemplo.com"></label>
+    <label>Contraseña<input name="password" type="password" required autocomplete="current-password" minlength="6" placeholder="Tu contraseña"></label>
+    <button id="loginSubmit" class="btn primary" type="submit">Iniciar sesión</button>
+    <button class="btn" type="button" onclick="googleLogin()">Continuar con Google</button>
+  </form>
+  <p id="loginError" class="small" role="status"></p>
+</dialog>
+
+<dialog id="editorDialog">
+  <div class="dialog-head"><h3 id="editorTitle">Crear registro</h3><button class="btn sm" onclick="closeDialog('editorDialog')">Cerrar</button></div>
+  <form id="editorForm" onsubmit="saveEditor(event)">
+    <div id="editorFields"></div>
+    <div class="hero-actions"><button id="editorSubmit" class="btn primary" type="submit">Guardar</button><button class="btn" type="button" onclick="closeDialog('editorDialog')">Cancelar</button></div>
   </form>
 </dialog>
 
-<!-- Siguiente parte: conexión, guardado y permisos -->
-  
+<dialog id="detailDialog">
+  <div class="dialog-head"><h3 id="detailTitle">Detalles</h3><button class="btn sm" onclick="closeDialog('detailDialog')">Cerrar</button></div>
+  <div id="detailBody"></div>
+        </dialog>
+             
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
@@ -588,7 +357,6 @@ dialog::backdrop{background:#02040bcc;backdrop-filter:blur(4px)}
 <script>
 "use strict";
 
-/* CONFIGURACIÓN FIREBASE */
 const firebaseConfig = {
   apiKey: "AIzaSyDZACQcqcik8qp8C50OyzlOcxe_1Kd3eTU",
   authDomain: "ffwscomunitysports.firebaseapp.com",
@@ -600,501 +368,758 @@ const firebaseConfig = {
   measurementId: "G-071HP07TNP"
 };
 
-/* Solo esta cuenta se reconoce como administradora en la interfaz.
-   La seguridad real también debe configurarse en las reglas de Firebase. */
 const ADMIN_UID = "OtpqAuKayQR61omgO6H57UB32Gi1";
 const COLLECTIONS = [
-  "tournaments", "teams", "players", "matches",
-  "news", "events", "media", "registrations", "support"
+  "tournaments","teams","players","rankings","matches",
+  "news","calendar","media","registrations","support"
 ];
 
+const records = {};
+COLLECTIONS.forEach(function(name){ records[name] = []; });
+
+let auth = null;
 let db = null;
 let storage = null;
-let auth = null;
 let currentUser = null;
 let isAdmin = false;
-let data = {};
+let firebaseReady = false;
+let editorType = "";
 let editingId = null;
-let editingKind = null;
+let dataListeners = [];
+let uploadUrl = "";
 
-function el(id) { return document.getElementById(id); }
+function $(id){ return document.getElementById(id); }
 
-function escapeHTML(value) {
-  return String(value == null ? "" : value).replace(/[&<>"']/g, function(c) {
-    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+function escapeHTML(value){
+  return String(value == null ? "" : value).replace(/[&<>"']/g,function(char){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char];
   });
 }
 
-function toast(message) {
-  const area = el("toastArea");
-  if (!area) { alert(message); return; }
+function toast(message){
+  const area = $("toastArea");
+  if(!area) return;
   const item = document.createElement("div");
   item.className = "toast";
-  item.textContent = message;
+  item.textContent = String(message);
   area.appendChild(item);
-  setTimeout(function() { item.remove(); }, 3500);
+  window.setTimeout(function(){
+    if(item.parentNode) item.parentNode.removeChild(item);
+  },4500);
 }
 
-function showPage(name) {
-  document.querySelectorAll(".page").forEach(function(p) {
-    p.classList.toggle("active", p.id === "page-" + name);
+function closeDialog(id){
+  const dialog = $(id);
+  if(dialog && typeof dialog.close === "function") dialog.close();
+}
+
+function openDialog(id){
+  const dialog = $(id);
+  if(!dialog) return;
+  if(typeof dialog.showModal === "function"){
+    if(!dialog.open) dialog.showModal();
+  }else{
+    dialog.setAttribute("open","");
+  }
+}
+
+function moneylessDate(value){
+  if(!value) return "Fecha no indicada";
+  const date = new Date(value);
+  if(Number.isNaN(date.getTime())) return String(value);
+  return date.toLocaleDateString("es-HN",{year:"numeric",month:"short",day:"numeric"});
+}
+
+function dateTimeValue(value){
+  if(!value) return "";
+  const date = new Date(value);
+  if(Number.isNaN(date.getTime())) return "";
+  const offset = date.getTimezoneOffset();
+  return new Date(date.getTime()-offset*60000).toISOString().slice(0,16);
+}
+
+function setConnection(text, good){
+  const status = $("connectionStatus");
+  const settings = $("settingsConnection");
+  const report = $("reportConnection");
+  if(status){
+    status.textContent = text;
+    status.className = "badge " + (good ? "green" : "yellow");
+  }
+  if(settings){
+    settings.textContent = text;
+    settings.className = "badge " + (good ? "green" : "yellow");
+  }
+  if(report) report.textContent = text;
+}
+
+function showPage(name){
+  const target = $("page-" + name);
+  if(!target){
+    toast("No se encontró la pantalla solicitada.");
+    return;
+  }
+  document.querySelectorAll(".page").forEach(function(page){
+    page.classList.toggle("active",page.id === "page-" + name);
   });
-  document.querySelectorAll("[data-page]").forEach(function(b) {
-    b.classList.toggle("active", b.dataset.page === name);
+  document.querySelectorAll("[data-page]").forEach(function(button){
+    button.classList.toggle("active",button.getAttribute("data-page") === name);
   });
-  if (name === "admin" && !isAdmin) {
-    el("adminGate").hidden = false;
-    el("adminPanel").hidden = true;
+  if(name === "admin" && !isAdmin){
+    toast("Inicia sesión con la cuenta administradora autorizada.");
   }
-  renderAll();
-  window.scrollTo({top: 0, behavior: "smooth"});
+  if(name === "registrations") renderRecords("registrations");
+  if(name === "reports") updateStats();
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function getItems(kind) {
-  return Object.entries(data[kind] || {}).map(function(entry) {
-    return Object.assign({id: entry[0]}, entry[1]);
-  });
+function openLogin(){
+  $("loginError").textContent = "";
+  openDialog("loginDialog");
 }
 
-function formatDate(value) {
-  if (!value) return "Fecha por confirmar";
-  const d = new Date(value + (value.length === 10 ? "T12:00:00" : ""));
-  return Number.isNaN(d.getTime()) ? value : d.toLocaleDateString("es-HN");
-}
-
-function imageMarkup(item, size) {
-  const url = item.imageUrl || "";
-  if (!url) return '<div class="media-placeholder">FFWS</div>';
-  return '<img src="' + escapeHTML(url) + '" alt="' +
-    escapeHTML(item.title || item.name || "Imagen") +
-    '" loading="lazy" style="width:100%;height:' + (size || 170) +
-    'px;object-fit:cover;border-radius:12px">';
-}
-
-function recordCard(item, kind) {
-  const title = item.title || item.name || "Sin título";
-  const description = item.description || item.subtitle || "";
-  const image = imageMarkup(item, 170);
-  const status = item.status || "";
-  const date = item.date ? formatDate(item.date) : "";
-  const adminActions = isAdmin
-    ? '<div class="hero-actions"><button class="btn sm" onclick="editRecord(\'' +
-      escapeHTML(kind) + '\',\'' + escapeHTML(item.id) +
-      '\')">Editar</button><button class="btn sm danger" onclick="deleteRecord(\'' +
-      escapeHTML(kind) + '\',\'' + escapeHTML(item.id) +
-      '\')">Eliminar</button></div>' : "";
-
-  return '<article class="card record-card">' + image +
-    '<div class="record-content"><span class="badge blue">' +
-    escapeHTML(status || kind) + '</span><h3>' + escapeHTML(title) +
-    '</h3><p>' + escapeHTML(description) + '</p>' +
-    (item.extra ? '<p class="muted small">' + escapeHTML(item.extra) + '</p>' : '') +
-    (date ? '<p class="muted small">' + escapeHTML(date) + '</p>' : '') +
-    (item.score ? '<p><strong>Resultado:</strong> ' + escapeHTML(item.score) + '</p>' : '') +
-    adminActions + '</div></article>';
-}
-
-function renderCollection(targetId, kind, search, status) {
-  const target = el(targetId);
-  if (!target) return;
-  let items = getItems(kind);
-  if (search) {
-    const q = search.toLowerCase();
-    items = items.filter(function(x) {
-      return [x.title, x.name, x.subtitle, x.description, x.extra]
-        .some(function(v) { return String(v || "").toLowerCase().includes(q); });
-    });
-  }
-  if (status) items = items.filter(function(x) { return x.status === status; });
-  items.sort(function(a,b) {
-    return String(a.date || "").localeCompare(String(b.date || ""));
-  });
-  target.innerHTML = items.length
-    ? items.map(function(item) { return recordCard(item, kind); }).join("")
-    : '<div class="empty"><strong>No hay registros todavía</strong>Cuando se añadan elementos, aparecerán aquí.</div>';
-}
-
-function renderAll() {
-  renderCollection("tournamentList", "tournaments",
-    el("tournamentSearch")?.value || "", el("tournamentFilter")?.value || "");
-  renderCollection("teamList", "teams", el("teamSearch")?.value || "");
-  renderCollection("playerList", "players", el("playerSearch")?.value || "");
-  renderCollection("matchList", "matches");
-  renderCollection("newsList", "news");
-  renderCollection("eventList", "events");
-  renderCollection("mediaList", "media");
-  renderCollection("registrationList", "registrations");
-  renderCollection("supportList", "support");
-
-  const count = function(kind) { return getItems(kind).length; };
-  if (el("statTournaments")) el("statTournaments").textContent = count("tournaments");
-  if (el("statTeams")) el("statTeams").textContent = count("teams");
-  if (el("statPlayers")) el("statPlayers").textContent = count("players");
-  if (el("statPending")) el("statPending").textContent =
-    getItems("registrations").filter(function(x) {
-      return !x.status || x.status === "Pendiente";
-    }).length;
-
-  if (el("pendingCount")) el("pendingCount").textContent =
-    getItems("registrations").filter(function(x) {
-      return !x.status || x.status === "Pendiente";
-    }).length;
-
-  if (el("dashboardTournaments")) {
-    const upcoming = getItems("tournaments").slice(0, 3);
-    el("dashboardTournaments").innerHTML = upcoming.length
-      ? upcoming.map(function(x) { return recordCard(x, "tournaments"); }).join("")
-      : '<div class="empty">Los torneos aparecerán aquí cuando se registren.</div>';
-  }
-  if (el("dashboardNews")) {
-    const news = getItems("news").slice(0, 3);
-    el("dashboardNews").innerHTML = news.length
-      ? news.map(function(x) { return recordCard(x, "news"); }).join("")
-      : '<div class="empty">Todavía no hay noticias publicadas.</div>';
-  }
-  if (el("activityFeed")) {
-    const recent = COLLECTIONS.flatMap(function(kind) {
-      return getItems(kind).map(function(x) {
-        return {title: x.title || x.name || kind, updatedAt: x.updatedAt || x.createdAt || ""};
-      });
-    }).sort(function(a,b) {
-      return String(b.updatedAt).localeCompare(String(a.updatedAt));
-    }).slice(0, 5);
-    el("activityFeed").innerHTML = recent.length
-      ? recent.map(function(x) {
-          return '<p>• ' + escapeHTML(x.title) + '</p>';
-        }).join("")
-      : '<div class="empty">Aún no hay actividad registrada.</div>';
-  }
-
-  renderRankings();
-  renderAdmin();
-}
-
-function renderRankings() {
-  const target = el("rankingList");
-  if (!target) return;
-  const teams = getItems("teams").map(function(team) {
-    const matches = getItems("matches").filter(function(m) {
-      return m.teamId === team.id || m.teamName === team.title || m.teamName === team.name;
-    });
-    return Object.assign({}, team, {
-      wins: Number(team.wins || 0),
-      losses: Number(team.losses || 0),
-      points: Number(team.points || 0) +
-        matches.reduce(function(sum, m) { return sum + Number(m.points || 0); }, 0)
-    });
-  }).sort(function(a,b) { return b.points - a.points; });
-
-  target.innerHTML = teams.length ? teams.map(function(t, i) {
-    return '<tr><td>' + (i + 1) + '</td><td>' +
-      escapeHTML(t.title || t.name || "Equipo") + '</td><td>' + t.wins +
-      '</td><td>' + t.losses + '</td><td>' + t.points + '</td></tr>';
-  }).join("") : '<tr><td colspan="5">Aún no hay equipos clasificados.</td></tr>';
-}
-
-function renderAdmin() {
-  if (el("adminGate")) el("adminGate").hidden = isAdmin;
-  if (el("adminPanel")) el("adminPanel").hidden = !isAdmin;
-  if (!isAdmin) return;
-  const map = {
-    adminTournaments: "tournaments", adminTeams: "teams",
-    adminPlayers: "players", adminSupport: "support"
-  };
-  Object.keys(map).forEach(function(id) {
-    if (el(id)) el(id).textContent = getItems(map[id]).length;
-  });
-  if (el("adminSupportList")) {
-    const requests = getItems("support").slice(-10).reverse();
-    el("adminSupportList").innerHTML = requests.length
-      ? requests.map(function(x) {
-          return '<div class="card"><strong>' + escapeHTML(x.title || x.name || "Consulta") +
-            '</strong><p>' + escapeHTML(x.description || "") +
-            '</p><p class="muted small">' + escapeHTML(x.subtitle || "") + '</p></div>';
-        }).join("")
-      : '<p>No hay consultas recibidas.</p>';
-  }
-}
-
-function openLogin() {
-  el("loginDialog").showModal();
-}
-
-function loginUser(event) {
-  event.preventDefault();
-  if (!auth) return toast("Firebase no está configurado.");
-  const form = new FormData(event.target);
-  auth.signInWithEmailAndPassword(form.get("email"), form.get("password"))
-    .then(function() {
-      el("loginDialog").close();
-      toast("Sesión iniciada.");
-    })
-    .catch(function(error) { toast("No se pudo iniciar sesión: " + error.message); });
-}
-
-function registerUser() {
-  const form = el("loginForm");
-  const email = form.elements.email.value.trim();
-  const password = form.elements.password.value;
-  if (!email || password.length < 6) {
-    return toast("Introduce un correo y una contraseña de al menos 6 caracteres.");
-  }
-  auth.createUserWithEmailAndPassword(email, password)
-    .then(function() {
-      el("loginDialog").close();
-      toast("Cuenta creada. No tiene permisos de administrador.");
-    })
-    .catch(function(error) { toast("No se pudo crear la cuenta: " + error.message); });
-}
-
-function logoutUser() {
-  if (!auth || !currentUser) return toast("No hay una sesión iniciada.");
-  auth.signOut().then(function() { toast("Sesión cerrada."); });
-}
-
-function updateUserUI() {
-  document.querySelectorAll(".admin-only").forEach(function(node) {
-    node.hidden = !isAdmin;
-  });
-  if (el("loginButton")) {
-    el("loginButton").textContent = currentUser ? "Mi cuenta" : "Iniciar sesión";
-    el("loginButton").onclick = currentUser
-      ? function() { showPage("users"); } : openLogin;
-  }
-  if (el("sidebarUser")) {
-    el("sidebarUser").textContent = currentUser
-      ? (currentUser.email || "Usuario") + (isAdmin ? " • Administrador" : "")
-      : "Modo visitante";
-  }
-  if (el("userInfo")) {
-    el("userInfo").innerHTML = currentUser
-      ? '<strong>' + escapeHTML(currentUser.email || "Usuario") +
-        '</strong><p>' + (isAdmin ? "Acceso de administrador" : "Cuenta estándar") + '</p>'
-      : "No has iniciado sesión.";
-  }
-  if (el("diagnosticUser")) {
-    el("diagnosticUser").textContent = "Sesión: " +
-      (currentUser ? currentUser.email : "visitante") +
-      (isAdmin ? " (administrador)" : "");
-  }
-  renderAll();
-}
-
-function openEditor(kind) {
-  if (["tournament","team","player","match","news","event","media"].includes(kind) && !isAdmin) {
-    return toast("Solo el administrador puede crear o editar estos registros.");
-  }
-  editingKind = kind;
-  editingId = null;
-  el("editorForm").reset();
-  el("imagePreview").textContent = "Selecciona una imagen para ver su nombre.";
-  el("editorKind").value = kind;
-  el("editorTitle").textContent = "Crear registro";
-  el("saveEditorButton").textContent = "Guardar registro";
-
-  const fields = {
-    tournaments: ["title","description","date","status","image","extra"],
-    teams: ["title","description","image","extra"],
-    players: ["title","description","teamId","image","extra"],
-    matches: ["title","description","date","teamId","opponent","score","status"],
-    news: ["title","description","date","image","extra"],
-    events: ["title","description","date","status","image"],
-    media: ["title","description","image"],
-    registrations: ["title","description","date","extra"],
-    support: ["title","subtitle","description"]
-  };
-  const names = fields[kind] || fields.tournaments;
-  ["title","subtitle","description","date","status","teamId",
-   "opponent","score","image","extra"].forEach(function(name) {
-    const node = el("field" + name[0].toUpperCase() + name.slice(1) + "Label");
-    if (node) node.hidden = !names.includes(name);
-  });
-
-  el("fieldTeam").innerHTML = '<option value="">Sin equipo asignado</option>' +
-    getItems("teams").map(function(t) {
-      return '<option value="' + escapeHTML(t.id) + '">' +
-        escapeHTML(t.title || t.name || "Equipo") + '</option>';
-    }).join("");
-
-  el("editorDialog").showModal();
-}
-
-function editRecord(kind, id) {
-  if (!isAdmin) return toast("Acceso restringido.");
-  const item = (data[kind] || {})[id];
-  if (!item) return toast("No se encontró el registro.");
-  openEditor(kind);
-  editingId = id;
-  el("editorTitle").textContent = "Editar registro";
-  el("saveEditorButton").textContent = "Guardar cambios";
-  ["title","subtitle","description","date","status","teamId",
-   "opponent","score","extra"].forEach(function(key) {
-    const field = el("field" + key[0].toUpperCase() + key.slice(1));
-    if (field) field.value = item[key] || "";
-  });
-  el("imagePreview").textContent = item.imageUrl
-    ? "Ya existe una imagen guardada. Selecciona otra para reemplazarla."
-    : "Este registro no tiene imagen.";
-}
-
-function closeEditor() {
-  el("editorDialog").close();
-}
-
-el("fieldImage")?.addEventListener("change", function() {
-  const file = this.files && this.files[0];
-  el("imagePreview").textContent = file ? file.name + " (" +
-    Math.round(file.size / 1024) + " KB)" : "No se seleccionó archivo.";
-});
-
-async function saveEditor(event) {
-  event.preventDefault();
-  const kind = editingKind;
-  const allowed = ["registrations","support"];
-  if (!isAdmin && !allowed.includes(kind)) return toast("No tienes permisos para guardar este tipo de registro.");
-
-  const form = new FormData(event.target);
-  const record = {
-    title: String(form.get("title") || "").trim(),
-    subtitle: String(form.get("subtitle") || "").trim(),
-    description: String(form.get("description") || "").trim(),
-    date: String(form.get("date") || ""),
-    status: String(form.get("status") || "Próximo"),
-    teamId: String(form.get("teamId") || ""),
-    opponent: String(form.get("opponent") || "").trim(),
-    score: String(form.get("score") || "").trim(),
-    extra: String(form.get("extra") || "").trim(),
-    updatedAt: new Date().toISOString()
-  };
-  if (!record.title) return toast("Escribe un título o nombre.");
-  if (kind === "support") record.status = "Pendiente";
-  if (kind === "registrations") record.status = "Pendiente";
-
-  const file = el("fieldImage").files[0];
-  try {
-    if (!db) throw new Error("Firebase no está conectado.");
-    if (file) {
-      if (!isAdmin) throw new Error("Solo el administrador puede subir archivos.");
-      if (!file.type.startsWith("image/")) throw new Error("El archivo debe ser una imagen.");
-      if (file.size > 5 * 1024 * 1024) throw new Error("La imagen supera el límite de 5 MB.");
-      if (!storage) throw new Error("Firebase Storage no está configurado.");
-      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-      const path = "uploads/" + kind + "/" + Date.now() + "_" + safeName;
-      const snapshot = await storage.ref(path).put(file);
-      record.imageUrl = await snapshot.ref.getDownloadURL();
-      record.imagePath = path;
-    } else if (editingId && data[kind] && data[kind][editingId]) {
-      record.imageUrl = data[kind][editingId].imageUrl || "";
-      record.imagePath = data[kind][editingId].imagePath || "";
+function initFirebase(){
+  try{
+    if(!window.firebase){
+      setConnection("Firebase no cargó",false);
+      toast("No se pudo cargar Firebase. Comprueba tu conexión a internet.");
+      return;
     }
-    if (currentUser) record.createdBy = currentUser.uid;
-    if (!editingId) record.createdAt = new Date().toISOString();
-
-    const ref = db.ref(kind + (editingId ? "/" + editingId : ""));
-    if (editingId) {
-      await ref.update(record);
-    } else {
-      await ref.push(record);
-    }
-    closeEditor();
-    event.target.reset();
-    toast("Registro guardado.");
-  } catch (error) {
-    toast("No se pudo guardar: " + error.message);
-  }
-}
-
-async function deleteRecord(kind, id) {
-  if (!isAdmin || !db) return toast("Acción restringida.");
-  if (!confirm("¿Eliminar este registro? Esta acción no se puede deshacer.")) return;
-  try {
-    const item = (data[kind] || {})[id];
-    await db.ref(kind + "/" + id).remove();
-    if (item && item.imagePath && storage) {
-      try { await storage.ref(item.imagePath).delete(); } catch (_) {}
-    }
-    toast("Registro eliminado.");
-  } catch (error) {
-    toast("No se pudo eliminar: " + error.message);
-  }
-}
-
-async function submitSupport(event) {
-  event.preventDefault();
-  if (!db) return toast("La base de datos no está conectada.");
-  const form = new FormData(event.target);
-  try {
-    await db.ref("support").push({
-      title: String(form.get("type") || "Consulta"),
-      name: String(form.get("name") || "").trim(),
-      subtitle: String(form.get("email") || "").trim(),
-      description: String(form.get("message") || "").trim(),
-      status: "Pendiente",
-      createdAt: new Date().toISOString()
-    });
-    event.target.reset();
-    toast("Consulta enviada.");
-  } catch (error) {
-    toast("No se pudo enviar: " + error.message);
-  }
-}
-
-function exportData() {
-  if (!isAdmin) return toast("Solo el administrador puede exportar los datos.");
-  const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "ffws-respaldo-" + new Date().toISOString().slice(0,10) + ".json";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-function saveSettings() {
-  const community = el("settingCommunity").value.trim();
-  const game = el("settingGame").value.trim();
-  if (!community || !game) return toast("Completa ambos campos.");
-  try {
-    localStorage.setItem("ffwsSettings", JSON.stringify({community: community, game: game}));
-    toast("Preferencias guardadas en este navegador.");
-  } catch (_) {
-    toast("No se pudieron guardar las preferencias.");
-  }
-}
-
-function checkConnection() {
-  if (el("diagnosticStatus")) {
-    el("diagnosticStatus").textContent = db
-      ? "Firebase inicializado. Verifica que las reglas permitan el acceso necesario."
-      : "Firebase no está inicializado. Revisa la configuración.";
-  }
-  toast(db ? "Firebase está inicializado." : "No hay conexión con Firebase.");
-}
-
-function initFirebase() {
-  try {
-    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     auth = firebase.auth();
     db = firebase.database();
     storage = firebase.storage();
 
-    auth.onAuthStateChanged(function(user) {
-      currentUser = user;
-      isAdmin = Boolean(user && user.uid === ADMIN_UID);
-      updateUserUI();
+    auth.onAuthStateChanged(function(user){
+      currentUser = user || null;
+      isAdmin = !!(user && user.uid === ADMIN_UID);
+      updateAccountUI();
+      updateAdminUI();
+      updateStats();
+
+      if(user){
+        closeDialog("loginDialog");
+        toast(isAdmin ? "Sesión de administración iniciada." : "Sesión iniciada.");
+      }
+      refreshData();
     });
 
-    COLLECTIONS.forEach(function(kind) {
-      db.ref(kind).on("value", function(snapshot) {
-        data[kind] = snapshot.val() || {};
-        renderAll();
-        if (el("connectionStatus")) {
-          el("connectionStatus").textContent = "● Conectado";
-          el("connectionStatus").className = "badge green";
-        }
-      }, function(error) {
-        console.error("Error leyendo " + kind, error);
-        if (el("connectionStatus")) {
-          el("connectionStatus").textContent = "● Revisar reglas";
-          el("connectionStatus").className = "badge yellow";
-       
+    checkConnection();
+  }catch(error){
+    console.error("Firebase init:",error);
+    setConnection("Error de configuración",false);
+    toast("Error al iniciar Firebase: " + error.message);
+  }
+}
+
+function updateAccountUI(){
+  const email = currentUser ? (currentUser.email || "Cuenta de Google") : "No has iniciado sesión";
+  const uid = currentUser ? currentUser.uid : "No disponible";
+  $("accountEmail").textContent = email;
+  $("accountUid").textContent = uid;
+  $("accountRole").textContent = isAdmin ? "Administrador autorizado" : "Usuario estándar";
+  $("sidebarUser").textContent = currentUser ? email : "Modo visitante";
+  $("loginButton").textContent = currentUser ? "Mi cuenta" : "Iniciar sesión";
+  $("loginButton").onclick = currentUser ? function(){showPage("users");} : openLogin;
+}
+
+function updateAdminUI(){
+  $("adminLocked").hidden = isAdmin;
+  $("adminContent").hidden = !isAdmin;
+  $("adminBadge").textContent = isAdmin ? "Administrador" : "Acceso restringido";
+  $("adminBadge").className = "badge " + (isAdmin ? "green" : "yellow");
+  $("adminSession").textContent = currentUser ? "Activa" : "Inactiva";
+  document.querySelectorAll(".admin-action").forEach(function(button){
+    button.hidden = !isAdmin;
+  });
+}
+
+function checkConnection(){
+  if(!db){
+    setConnection("Firebase no inicializado",false);
+    return;
+  }
+  db.ref(".info/connected").once("value").then(function(snapshot){
+    const connected = snapshot.val() === true;
+    setConnection(connected ? "Conectado" : "Sin conexión",connected);
+    toast(connected ? "Conexión con Firebase comprobada." : "Firebase no confirma una conexión activa.");
+  }).catch(function(error){
+    setConnection("Error de conexión",false);
+    toast("No se pudo comprobar Firebase: " + error.message);
+  });
+}
+
+function refreshData(){
+  if(!db){
+    COLLECTIONS.forEach(function(name){records[name]=[];});
+    renderAll();
+    setConnection("Sin conexión a Firebase",false);
+    return;
+  }
+  dataListeners.forEach(function(item){
+    item.ref.off("value",item.callback);
+  });
+  dataListeners = [];
+
+  COLLECTIONS.forEach(function(name){
+    const ref = db.ref(name);
+    const callback = function(snapshot){
+      const value = snapshot.val() || {};
+      records[name] = Object.keys(value).map(function(id){
+        const item = value[id];
+        return Object.assign({},item,{id:id});
+      });
+      renderAll();
+    };
+    ref.on("value",callback,function(error){
+      console.error("Lectura de "+name+":",error);
+      if(name === "registrations" || name === "support"){
+        toast("Firebase no permite leer " + name + ". Revisa las reglas de acceso.");
+      }
+    });
+    dataListeners.push({ref:ref,callback:callback});
+  });
+}
+</script>
+  
+<script>
+function getRecordName(item){
+  return item.name || item.title || item.teamName || item.team || item.captain || "Registro sin nombre";
+}
+
+function renderCard(type,item){
+  const title = getRecordName(item);
+  const image = item.imageUrl || item.image || "";
+  const imageHTML = image
+    ? '<img src="'+escapeHTML(image)+'" alt="'+escapeHTML(title)+'" loading="lazy" onerror="this.style.display=\'none\'">'
+    : '<div class="media-placeholder">FFWS</div>';
+  const status = item.status ? '<span class="badge">'+escapeHTML(item.status)+'</span>' : "";
+  const description = item.description || item.notes || item.message || "";
+  const date = item.date ? '<p class="small">Fecha: '+escapeHTML(moneylessDate(item.date))+'</p>' : "";
+  const score = item.score != null ? '<p>Puntos: '+escapeHTML(item.score)+'</p>' : "";
+  const result = item.result ? '<p>Resultado: '+escapeHTML(item.result)+'</p>' : "";
+  const adminButtons = isAdmin
+    ? '<div class="hero-actions"><button class="btn sm" onclick="editRecord(\''+escapeHTML(type)+'\',\''+escapeHTML(item.id)+'\')">Editar</button><button class="btn sm danger" onclick="deleteRecord(\''+escapeHTML(type)+'\',\''+escapeHTML(item.id)+'\')">Eliminar</button></div>'
+    : "";
+  return '<article class="card record-card">'+imageHTML+
+    '<div class="record-content">'+status+'<h3>'+escapeHTML(title)+'</h3>'+
+    (description ? '<p>'+escapeHTML(description)+'</p>' : "")+
+    date+score+result+
+    '<button class="btn sm" onclick="showDetails(\''+escapeHTML(type)+'\',\''+escapeHTML(item.id)+'\')">Ver detalles</button>'+
+    adminButtons+'</div></article>';
+}
+
+function renderRecords(type){
+  const list = $("list"+type.charAt(0).toUpperCase()+type.slice(1));
+  const rows = records[type] || [];
+  if(type === "rankings"){
+    renderRankings();
+    return;
+  }
+  if(!list) return;
+
+  const searchInput = $("search"+type.charAt(0).toUpperCase()+type.slice(1));
+  const query = searchInput ? searchInput.value.trim().toLowerCase() : "";
+  const filterInput = $("filter"+type.charAt(0).toUpperCase()+type.slice(1));
+  const filter = filterInput ? filterInput.value : "";
+
+  const filtered = rows.filter(function(item){
+    const text = JSON.stringify(item).toLowerCase();
+    const matchesSearch = !query || text.includes(query);
+    const matchesFilter = !filter || item.status === filter;
+    return matchesSearch && matchesFilter;
+  });
+
+  if(!filtered.length){
+    list.innerHTML = '<div class="empty">Todavía no hay registros para mostrar.</div>';
+    return;
+  }
+  list.innerHTML = filtered.map(function(item){
+    return renderCard(type,item);
+  }).join("");
+}
+
+function renderRankings(){
+  const tbody = $("rankingRows");
+  if(!tbody) return;
+  const sorted = (records.rankings || []).slice().sort(function(a,b){
+    return Number(b.score || b.points || 0) - Number(a.score || a.points || 0);
+  });
+  if(!sorted.length){
+    tbody.innerHTML = '<tr><td colspan="5">Todavía no hay posiciones publicadas.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = sorted.map(function(item,index){
+    return '<tr><td>'+ (index+1) +'</td><td>'+escapeHTML(item.team || item.name || "Equipo")+
+      '</td><td>'+escapeHTML(item.tournament || "General")+
+      '</td><td>'+escapeHTML(item.score || item.points || 0)+
+      '</td><td>'+escapeHTML(item.wins || 0)+'</td></tr>';
+  }).join("");
+}
+
+function renderDashboard(){
+  const upcoming = (records.tournaments || []).slice(0,4);
+  const news = (records.news || []).slice(0,4);
+  $("dashboardTournaments").innerHTML = upcoming.length
+    ? upcoming.map(function(item){
+        return '<p><strong>'+escapeHTML(getRecordName(item))+'</strong><br><span class="small muted">'+escapeHTML(item.status || "Torneo")+(item.date ? " · "+escapeHTML(moneylessDate(item.date)) : "")+'</span></p>';
+      }).join("")
+    : '<div class="empty">Aún no hay torneos publicados.</div>';
+  $("dashboardNews").innerHTML = news.length
+    ? news.map(function(item){
+        return '<p><strong>'+escapeHTML(getRecordName(item))+'</strong><br><span class="small muted">'+escapeHTML(item.description || item.date || "Noticia de la comunidad")+'</span></p>';
+      }).join("")
+    : '<div class="empty">Aún no hay noticias publicadas.</div>';
+
+  const activity = $("activityFeed");
+  if(activity){
+    const recent = COLLECTIONS.flatMap(function(type){
+      return (records[type] || []).map(function(item){
+        return {type:type,item:item};
+      });
+    }).slice(-6).reverse();
+    activity.innerHTML = recent.length
+      ? recent.map(function(entry){
+          return '<p>• '+escapeHTML(getRecordName(entry.item))+' <span class="small muted">('+escapeHTML(entry.type)+')</span></p>';
+        }).join("")
+      : "Todavía no hay actividad registrada.";
+  }
+}
+
+function updateStats(){
+  $("statTournaments").textContent = records.tournaments.length;
+  $("statTeams").textContent = records.teams.length;
+  $("statPlayers").textContent = records.players.length;
+  $("statPending").textContent = records.registrations.filter(function(item){
+    return !item.status || item.status === "Pendiente";
+  }).length;
+
+  $("reportTournaments").textContent = records.tournaments.length;
+  $("reportTeams").textContent = records.teams.length;
+  $("reportPlayers").textContent = records.players.length;
+  $("reportMatches").textContent = records.matches.length;
+
+  $("adminTotal").textContent = COLLECTIONS.reduce(function(total,type){
+    return total + records[type].length;
+  },0);
+  $("adminPending").textContent = records.registrations.filter(function(item){
+    return !item.status || item.status === "Pendiente";
+  }).length;
+  $("adminSupport").textContent = records.support.length;
+
+  const recent = $("adminRecent");
+  if(recent){
+    const pending = records.registrations.filter(function(item){
+      return !item.status || item.status === "Pendiente";
+    }).slice(0,8);
+    recent.innerHTML = pending.length ? pending.map(function(item){
+      return '<div class="card" style="margin:8px 0"><strong>'+escapeHTML(item.teamName || item.name || "Equipo")+
+        '</strong><p class="small muted">'+escapeHTML(item.captain || item.email || "")+'</p>'+
+        '<span class="badge yellow">Pendiente</span> '+
+        '<button class="btn sm" onclick="reviewRegistration(\''+escapeHTML(item.id)+'\',\'Aprobada\')">Aprobar</button> '+
+        '<button class="btn sm danger" onclick="reviewRegistration(\''+escapeHTML(item.id)+'\',\'Rechazada\')">Rechazar</button></div>';
+    }).join("") : '<div class="empty">No hay solicitudes pendientes.</div>';
+  }
+}
+
+function renderAll(){
+  ["tournaments","teams","players","rankings","matches","news","calendar","media","registrations"].forEach(renderRecords);
+  renderDashboard();
+  updateStats();
+  updateAdminUI();
+}
+
+function showDetails(type,id){
+  const item = (records[type] || []).find(function(record){return record.id === id;});
+  if(!item){
+    toast("No se encontró el registro.");
+    return;
+  }
+  $("detailTitle").textContent = getRecordName(item);
+  const lines = Object.keys(item).filter(function(key){
+    return key !== "id" && key !== "imageUrl" && key !== "image";
+  }).map(function(key){
+    return '<p><strong>'+escapeHTML(key)+':</strong> '+escapeHTML(item[key])+'</p>';
+  }).join("");
+  const image = item.imageUrl || item.image;
+  $("detailBody").innerHTML = (image ? '<img src="'+escapeHTML(image)+'" alt="" style="width:100%;max-height:280px;object-fit:contain;border-radius:10px">' : "")+lines;
+  openDialog("detailDialog");
+}
+
+function fieldHTML(name,label,type,value,required,options){
+  const safeName = escapeHTML(name);
+  const safeLabel = escapeHTML(label);
+  const safeValue = escapeHTML(value == null ? "" : value);
+  const req = required ? " required" : "";
+  if(type === "select"){
+    return '<label>'+safeLabel+'<select name="'+safeName+'"'+req+'>'+
+      (options || []).map(function(option){
+        return '<option'+(option === value ? " selected" : "")+'>'+escapeHTML(option)+'</option>';
+      }).join("")+'</select></label>';
+  }
+  if(type === "textarea"){
+    return '<label>'+safeLabel+'<textarea name="'+safeName+'" rows="3" maxlength="2000"'+req+'>'+safeValue+'</textarea></label>';
+  }
+  return '<label>'+safeLabel+'<input name="'+safeName+'" type="'+escapeHTML(type || "text")+'" value="'+safeValue+'" maxlength="300"'+req+'></label>';
+}
+
+const editorSchemas = {
+  tournaments:[
+    ["name","Nombre del torneo","text",true],
+    ["description","Descripción","textarea",false],
+    ["status","Estado","select",true,["Abierto","En curso","Finalizado"]],
+    ["date","Fecha","date",false],
+    ["prize","Premio o recompensa","text",false],
+    ["imageUrl","URL de imagen (opcional)","url",false]
+  ],
+  teams:[
+    ["name","Nombre del equipo","text",true],
+    ["captain","Capitán","text",false],
+    ["description","Descripción","textarea",false],
+    ["status","Estado","select",true,["Activo","Inactivo"]],
+    ["imageUrl","URL de imagen (opcional)","url",false]
+  ],
+  players:[
+    ["name","Nombre del jugador","text",true],
+    ["team","Equipo","text",false],
+    ["playerId","ID de jugador","text",false],
+    ["role","Rol o posición","text",false],
+    ["status","Estado","select",true,["Activo","Inactivo"]]
+  ],
+  rankings:[
+    ["team","Nombre del equipo","text",true],
+    ["tournament","Torneo","text",false],
+    ["score","Puntos","number",true],
+    ["wins","Victorias","number",true]
+  ],
+  matches:[
+    ["name","Nombre del encuentro","text",true],
+    ["teamA","Equipo A","text",true],
+    ["teamB","Equipo B","text",true],
+    ["tournament","Torneo","text",false],
+    ["date","Fecha y hora","datetime-local",false],
+    ["status","Estado","select",true,["Programada","En curso","Finalizada"]],
+    ["result","Resultado","text",false]
+  ],
+  news:[
+    ["title","Título","text",true],
+    ["description","Contenido de la noticia","textarea",true],
+    ["date","Fecha","date",false],
+    ["imageUrl","URL de imagen (opcional)","url",false]
+  ],
+  calendar:[
+    ["name","Nombre del evento","text",true],
+    ["description","Descripción","textarea",false],
+    ["date","Fecha y hora","datetime-local",true],
+    ["status","Estado","select",true,["Programado","En curso","Finalizado"]]
+  ],
+  media:[
+    ["name","Título del contenido","text",true],
+    ["description","Descripción","textarea",false],
+    ["imageUrl","URL de imagen (opcional)","url",false]
+  ]
+};
+
+function openEditor(type,id){
+  if(!isAdmin){
+    if(type !== "registrations"){
+      toast("Esta acción requiere una cuenta administradora.");
+      openLogin();
+      return;
+    }
+  }
+  editorType = type;
+  editingId = id || null;
+  uploadUrl = "";
+
+  const form = $("editorForm");
+  const fields = $("editorFields");
+  form.reset();
+
+  if(type === "registrations"){
+    closeDialog("editorDialog");
+    showPage("registrations");
+    $("registrationForm").scrollIntoView({behavior:"smooth",block:"start"});
+    return;
+  }
+
+  const schema = editorSchemas[type];
+  if(!schema){
+    toast("No se reconoce el tipo de registro.");
+    return;
+  }
+
+  const item = id ? (records[type] || []).find(function(record){return record.id === id;}) : null;
+  $("editorTitle").textContent = (id ? "Editar " : "Crear ") + type;
+  fields.innerHTML = schema.map(function(field){
+    let value = item ? item[field[0]] : "";
+    if(field[2] === "date" || field[2] === "datetime-local") value = dateTimeValue(value);
+    return fieldHTML(field[0],field[1],field[2],value,field[3],field[4]);
+  }).join("")+
+  '<label>Seleccionar imagen desde el teléfono (opcional)<input id="editorImage" type="file" accept="image/*"></label>'+
+  '<p class="small muted">La carga de imagen requiere Firebase Storage configurado y permisos válidos. También puedes usar una URL de imagen.</p>';
+
+  openDialog("editorDialog");
+}
+
+function editRecord(type,id){
+  if(!isAdmin) return toast("No tienes permiso para editar.");
+  openEditor(type,id);
+}
+
+function deleteRecord(type,id){
+  if(!isAdmin || !db) return toast("Inicia sesión como administrador para eliminar registros.");
+  if(!window.confirm("¿Seguro que quieres eliminar este registro?")) return;
+  db.ref(type+"/"+id).remove().then(function(){
+    toast("Registro eliminado.");
+  }).catch(function(error){
+    toast("No se pudo eliminar: "+error.message);
+  });
+}
+</script>
+  
+<script>
+function loginUser(event){
+  event.preventDefault();
+  if(!auth){
+    $("loginError").textContent = "Firebase no está disponible. Comprueba tu conexión.";
+    return;
+  }
+  const form = event.currentTarget;
+  const email = form.elements.email.value.trim();
+  const password = form.elements.password.value;
+  const button = $("loginSubmit");
+  button.disabled = true;
+  button.textContent = "Iniciando sesión...";
+  $("loginError").textContent = "";
+
+  auth.signInWithEmailAndPassword(email,password).then(function(){
+    toast("Inicio de sesión completado.");
+  }).catch(function(error){
+    console.error("Login:",error);
+    $("loginError").textContent = friendlyAuthError(error);
+  }).finally(function(){
+    button.disabled = false;
+    button.textContent = "Iniciar sesión";
+  });
+}
+
+function friendlyAuthError(error){
+  const messages = {
+    "auth/invalid-email":"El correo electrónico no es válido.",
+    "auth/user-not-found":"No existe una cuenta con ese correo.",
+    "auth/wrong-password":"La contraseña no es correcta.",
+    "auth/invalid-credential":"El correo o la contraseña son incorrectos.",
+    "auth/too-many-requests":"Demasiados intentos. Espera un momento e inténtalo de nuevo.",
+    "auth/network-request-failed":"No hay conexión. Comprueba tu internet.",
+    "auth/operation-not-allowed":"Este método de inicio de sesión no está habilitado en Firebase."
+  };
+  return messages[error.code] || ("No se pudo iniciar sesión: "+error.message);
+}
+
+function googleLogin(){
+  if(!auth) return toast("Firebase no está disponible.");
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider).catch(function(error){
+    if(error.code === "auth/popup-blocked" || error.code === "auth/operation-not-supported-in-this-environment"){
+      auth.signInWithRedirect(provider).catch(function(redirectError){
+        toast("Error con Google: "+redirectError.message);
+      });
+    }else{
+      toast("No se pudo iniciar sesión con Google: "+error.message);
+    }
+  });
+}
+
+function logoutUser(){
+  if(!auth) return toast("Firebase no está disponible.");
+  auth.signOut().then(function(){
+    toast("Sesión cerrada.");
+    showPage("dashboard");
+  }).catch(function(error){
+    toast("No se pudo cerrar sesión: "+error.message);
+  });
+}
+
+function submitRegistration(event){
+  event.preventDefault();
+  if(!db) return toast("No hay conexión con Firebase.");
+
+  const form = event.currentTarget;
+  const data = Object.fromEntries(new FormData(form).entries());
+  data.status = "Pendiente";
+  data.createdAt = new Date().toISOString();
+  data.ownerUid = currentUser ? currentUser.uid : null;
+
+  db.ref("registrations").push(data).then(function(){
+    form.reset();
+    toast("Inscripción enviada. Queda pendiente de revisión.");
+  }).catch(function(error){
+    console.error("Registration:",error);
+    toast("No se pudo enviar la inscripción. Revisa las reglas de Firebase: "+error.message);
+  });
+}
+
+function submitSupport(event){
+  event.preventDefault();
+  if(!db) return toast("No hay conexión con Firebase.");
+
+  const form = event.currentTarget;
+  const data = Object.fromEntries(new FormData(form).entries());
+  data.status = "Nuevo";
+  data.createdAt = new Date().toISOString();
+  data.ownerUid = currentUser ? currentUser.uid : null;
+
+  db.ref("support").push(data).then(function(){
+    form.reset();
+    toast("Mensaje enviado correctamente.");
+  }).catch(function(error){
+    console.error("Support:",error);
+    toast("No se pudo enviar el mensaje. Revisa las reglas de Firebase: "+error.message);
+  });
+}
+
+function saveEditor(event){
+  event.preventDefault();
+  if(!isAdmin || !db) return toast("Necesitas una sesión de administrador y conexión a Firebase.");
+
+  const form = event.currentTarget;
+  const submit = $("editorSubmit");
+  const data = Object.fromEntries(new FormData(form).entries());
+  delete data.editorImage;
+
+  ["score","wins"].forEach(function(key){
+    if(data[key] !== undefined) data[key] = Number(data[key] || 0);
+  });
+
+  ["date"].forEach(function(key){
+    if(data[key]) data[key] = new Date(data[key]).toISOString();
+  });
+  if(data.date && Number.isNaN(Date.parse(data.date))){
+    return toast("La fecha indicada no es válida.");
+  }
+  if(data["datetime-local"]){
+    delete data["datetime-local"];
+  }
+
+  const fileInput = $("editorImage");
+  const file = fileInput && fileInput.files ? fileInput.files[0] : null;
+  if(file && file.size > 5 * 1024 * 1024){
+    return toast("La imagen supera 5 MB. Selecciona una imagen más pequeña.");
+  }
+
+  submit.disabled = true;
+  submit.textContent = "Guardando...";
+
+  function writeData(){
+    const ref = editorType + (editingId ? "/"+editingId : "");
+    const operation = editingId
+      ? db.ref(ref).update(data)
+      : db.ref(editorType).push(data);
+    return operation.then(function(){
+      closeDialog("editorDialog");
+      toast(editingId ? "Cambios guardados." : "Registro creado correctamente.");
+    });
+  }
+
+  let uploadPromise = Promise.resolve();
+  if(file){
+    if(!storage){
+      submit.disabled = false;
+      submit.textContent = "Guardar";
+      return toast("Firebase Storage no está disponible.");
+    }
+    const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+    const path = "community/"+editorType+"/"+Date.now()+"_"+safeFileName;
+    uploadPromise = storage.ref(path).put(file).then(function(snapshot){
+      return snapshot.ref.getDownloadURL();
+    }).then(function(url){
+      data.imageUrl = url;
+    });
+  }
+
+  uploadPromise.then(writeData).catch(function(error){
+    console.error("Save:",error);
+    toast("No se pudo guardar: "+error.message);
+  }).finally(function(){
+    submit.disabled = false;
+    submit.textContent = "Guardar";
+  });
+}
+
+function reviewRegistration(id,status){
+  if(!isAdmin || !db) return toast("Acción exclusiva del administrador.");
+  const item = records.registrations.find(function(record){return record.id === id;});
+  if(!item) return toast("No se encontró la inscripción.");
+
+  const updates = {status:status,reviewedAt:new Date().toISOString()};
+  db.ref("registrations/"+id).update(updates).then(function(){
+    if(status === "Aprobada"){
+      return db.ref("teams").push({
+        name:item.teamName || "Equipo aprobado",
+        captain:item.captain || "",
+        description:item.notes || "",
+        status:"Activo",
+        createdAt:new Date().toISOString(),
+        registrationId:id
+      });
+    }
+  }).then(function(){
+    toast(status === "Aprobada" ? "Inscripción aprobada y equipo registrado." : "Inscripción rechazada.");
+  }).catch(function(error){
+    toast("No se pudo revisar la inscripción: "+error.message);
+  });
+}
+
+function exportData(){
+  if(!isAdmin) return toast("Solo el administrador puede exportar datos.");
+  const payload = {
+    exportedAt:new Date().toISOString(),
+    collections:records
+  };
+  const blob = new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "ffws-community-backup.json";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+  toast("Exportación preparada.");
+}
+
+function runDiagnostics(){
+  const checks = [];
+  checks.push("Navegador: " + (window.navigator.onLine ? "con conexión" : "sin conexión"));
+  checks.push("Firebase SDK: " + (window.firebase ? "cargado" : "no disponible"));
+  checks.push("Firebase inicializado: " + (firebaseReady ? "sí" : "pendiente"));
+  checks.push("Base de datos: " + (db ? "configurada" : "no configurada"));
+  checks.push("Sesión: " + (currentUser ? "iniciada" : "visitante"));
+  checks.push("Administrador: " + (isAdmin ? "sí" : "no"));
+  $("diagnosticStatus").textContent = checks.join(" · ");
+  toast("Diagnóstico completado. Consulta el resultado en pantalla.");
+}
+
+window.addEventListener("online",function(){
+  if(db) checkConnection();
+});
+window.addEventListener("offline",function(){
+  setConnection("Sin conexión",false);
+});
+
+document.addEventListener("DOMContentLoaded",function(){
+  if(!window.firebase){
+    setConnection("SDK no disponible",false);
+    $("diagnosticStatus").textContent = "No se pudo cargar Firebase. Comprueba la conexión y vuelve a cargar la página.";
+    return;
+  }
+  firebaseReady = true;
+  initFirebase();
+  runDiagnostics();
+});
+</script>
+</body>
+</html>
+
+  
